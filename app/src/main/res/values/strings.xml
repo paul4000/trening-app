@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Workout-Assistant</string>
+    <string name="hello_text">Witaj w Workout Assistant</string>
+    <string name="browse_trainings">Przeglądaj dostępne treningi</string>
+    <string name="browse_yours_trainings">Przeglądaj swoje treningi</string>
+    <string name="downloading_error">Błąd podczas pobierania ćwiczeń.</string>
 </resources>
