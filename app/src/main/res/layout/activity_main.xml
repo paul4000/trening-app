@@ -6,11 +6,6 @@
     android:layout_height="wrap_content"
     tools:context="com.example.assistant.workout_assistant.MainActivity">
 
-    <TextView
-        android:text="@+id/SomeText"
-        android:id="@+id/TextView01"
-        android:layout_width="wrap_content" android:layout_height="wrap_content" />
-
     <LinearLayout
         android:id="@+id/LinearLayout1"
         android:layout_width="match_parent"
