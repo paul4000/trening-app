@@ -78,18 +78,18 @@ public class Training {
          * series : [{"time":20,"quantity":20,"_id":"5910d04fea94d232b3f36eb1"},{"time":20,"quantity":15,"_id":"5910d04fea94d232b3f36eb0"}]
          */
 
-        private ExerciseBean exercise;
+        private Exercise exercise;
         private boolean time;
         private boolean quantity;
         private boolean load;
         private String _id;
         private List<SeriesBean> series;
 
-        public ExerciseBean getExercise() {
+        public Exercise getExercise() {
             return exercise;
         }
 
-        public void setExercise(ExerciseBean exercise) {
+        public void setExercise(Exercise exercise) {
             this.exercise = exercise;
         }
 
@@ -131,82 +131,6 @@ public class Training {
 
         public void setSeries(List<SeriesBean> series) {
             this.series = series;
-        }
-
-        public static class ExerciseBean {
-            /**
-             * _id : 590cb72ed522013f68155945
-             * description : Podnoszenie ciÄĹźaru na sztandze
-             * name : Wyciskanie sztangi
-             * place : indoor
-             * __v : 0
-             * requirements : ["sprzÄ\u0099t"]
-             * muscles : ["rÄ\u0099ce","klatka piersiowa"]
-             */
-
-            private String _id;
-            private String description;
-            private String name;
-            private String place;
-            private int __v;
-            private List<String> requirements;
-            private List<String> muscles;
-
-            public String get_id() {
-                return _id;
-            }
-
-            public void set_id(String _id) {
-                this._id = _id;
-            }
-
-            public String getDescription() {
-                return description;
-            }
-
-            public void setDescription(String description) {
-                this.description = description;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            public String getPlace() {
-                return place;
-            }
-
-            public void setPlace(String place) {
-                this.place = place;
-            }
-
-            public int get__v() {
-                return __v;
-            }
-
-            public void set__v(int __v) {
-                this.__v = __v;
-            }
-
-            public List<String> getRequirements() {
-                return requirements;
-            }
-
-            public void setRequirements(List<String> requirements) {
-                this.requirements = requirements;
-            }
-
-            public List<String> getMuscles() {
-                return muscles;
-            }
-
-            public void setMuscles(List<String> muscles) {
-                this.muscles = muscles;
-            }
         }
 
         public static class SeriesBean {
