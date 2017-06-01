@@ -1,13 +1,7 @@
 package com.example.assistant.workout_assistant.exercises;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 
-/**
- * Created by Paulina on 31.05.2017.
- */
 
 public class SeriesBean implements Serializable {
     /**
@@ -18,7 +12,16 @@ public class SeriesBean implements Serializable {
 
     private int time;
     private int quantity;
+    private int load;
     private String _id;
+
+    public int getLoad() {
+        return load;
+    }
+
+    public void setLoad(int load) {
+        this.load = load;
+    }
 
     public int getTime() {
         return time;
@@ -47,7 +50,8 @@ public class SeriesBean implements Serializable {
     @Override
     public String toString() {
         return "Serie: " +
-                "time=" + time +
-                ", quantity=" + quantity;
+                (time > 0 ? "time: " + time + " ": "") +
+                (quantity > 0 ? "quantity: " + quantity + " ":"") +
+                (load > 0 ? "load: " + load + " ":"");
     }
 }
