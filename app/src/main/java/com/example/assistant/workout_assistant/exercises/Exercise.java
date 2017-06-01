@@ -1,8 +1,9 @@
 package com.example.assistant.workout_assistant.exercises;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Exercise {
+public class Exercise implements Serializable{
 
     /**
      * _id : 59121e5003238d5961c79585
@@ -76,6 +77,24 @@ public class Exercise {
 
     public void setMuscles(List<String> muscles) {
         this.muscles = muscles;
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder(name + "\n" + description + "\n"
+                +"Miejsce: " + place + "\n");
+
+        sb.append("Wymagania: \n");
+        for(String req: requirements){
+            sb.append(req);
+        }
+        sb.append("Mięśnie: ");
+        for(String mus: muscles){
+            sb.append(mus);
+        }
+
+        return sb.toString();
     }
 }
 

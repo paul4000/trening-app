@@ -1,8 +1,13 @@
 package com.example.assistant.workout_assistant.exercises;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
-public class Training {
+public class Training implements Serializable{
 
     /**
      * _id : 5910d04fea94d232b3f36eae
@@ -19,6 +24,7 @@ public class Training {
     private int __v;
     private String updated;
     private List<ExercisesBean> exercises;
+
 
     public String get_id() {
         return _id;
@@ -68,7 +74,8 @@ public class Training {
         this.exercises = exercises;
     }
 
-    public static class ExercisesBean {
+
+    public static class ExercisesBean implements Serializable {
         /**
          * exercise : {"_id":"590cb72ed522013f68155945","description":"Podnoszenie ciÄ\u0099Ĺźaru na sztandze","name":"Wyciskanie sztangi","place":"indoor","__v":0,"requirements":["sprzÄ\u0099t"],"muscles":["rÄ\u0099ce","klatka piersiowa"]}
          * time : true
@@ -133,40 +140,6 @@ public class Training {
             this.series = series;
         }
 
-        public static class SeriesBean {
-            /**
-             * time : 20
-             * quantity : 20
-             * _id : 5910d04fea94d232b3f36eb1
-             */
 
-            private int time;
-            private int quantity;
-            private String _id;
-
-            public int getTime() {
-                return time;
-            }
-
-            public void setTime(int time) {
-                this.time = time;
-            }
-
-            public int getQuantity() {
-                return quantity;
-            }
-
-            public void setQuantity(int quantity) {
-                this.quantity = quantity;
-            }
-
-            public String get_id() {
-                return _id;
-            }
-
-            public void set_id(String _id) {
-                this._id = _id;
-            }
-        }
     }
 }
