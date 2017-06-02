@@ -1,10 +1,6 @@
 package com.example.assistant.workout_assistant.exercises;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 public class Training implements Serializable{

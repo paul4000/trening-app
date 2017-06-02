@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.assistant.workout_assistant.database.DBHelper;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -21,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        DBHelper dbHelper = new DBHelper(this);
 
     }
 
