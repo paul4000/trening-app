@@ -23,9 +23,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        DBHelper dbHelper = new DBHelper(this);
-
     }
 
 
