@@ -16,12 +16,12 @@ public class SeriesTableManager extends TableManager {
     @Override
     public void create(SQLiteDatabase db) {
         String q =  CREATE + TABLE_SERIES + "("
-                + KEY_ID + " INTEGER PRIMARY_KEY AUTOINCREMENT, "
+                + KEY_ID + " INTEGER PRIMARY_KEY, "
                 + TIME + " INTEGER, "
                 + QUANTITY + " INTEGER, "
                 + LOAD + " INTEGER, "
                 + EXE_BEAN_ID + " INTEGER, "
-                + "FOREIGN_KEY (" + EXE_BEAN_ID +") REFERENCES exercise_beans(" + KEY_ID + ") "+ DELETE_CASCADE +")";
+                + "FOREIGN KEY (" + EXE_BEAN_ID +") REFERENCES exercise_beans(" + KEY_ID + ") "+ DELETE_CASCADE +")";
 
         db.execSQL(q);
     }

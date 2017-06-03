@@ -13,11 +13,11 @@ public class ExeMusTableManager extends TableManager {
     @Override
     public void create(SQLiteDatabase db) {
         String q = CREATE + TABLE_EXE_MUSCLES + "("
-                + KEY_ID + " INTEGER PRIMARY_KEY AUTOINCREMENT, "
+                + KEY_ID + " INTEGER PRIMARY_KEY, "
                 + EXERCISE_ID + " TEXT, "
                 + MUSCLE_ID + " INTEGER, "
-                + "FOREIGN_KEY (" + EXERCISE_ID + ") REFERENCES exercises(" + KEY_ID +") " + DELETE_CASCADE + ", "
-                + "FOREIGN_KEY (" + MUSCLE_ID +") REFERENCES muscles(" + KEY_ID + ") "+ DELETE_CASCADE +")";
+                + "FOREIGN KEY (" + EXERCISE_ID + ") REFERENCES exercises(" + KEY_ID +") " + DELETE_CASCADE + ", "
+                + "FOREIGN KEY (" + MUSCLE_ID +") REFERENCES muscles(" + KEY_ID + ") "+ DELETE_CASCADE +")";
 
         db.execSQL(q);
     }

@@ -6,12 +6,12 @@ import android.database.sqlite.SQLiteDatabase;
 public abstract class TableManager {
 
     protected static final String CREATE = "CREATE TABLE ";
-    protected static final String DELETE = "DROP TABLE IF EXIST ";
+    protected static final String DELETE = "DROP TABLE IF EXISTS ";
     protected static final String DELETE_CASCADE = "ON DELETE CASCADE";
 
 
     //COMMON COLUMN NAMES
-    protected static final String KEY_ID = "id";
+    protected static final String KEY_ID = "_id";
     protected static final String NAME = "name";
     protected static final String TIME = "time";
     protected static final String LOAD = "load";

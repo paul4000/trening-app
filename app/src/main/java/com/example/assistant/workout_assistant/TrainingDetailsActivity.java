@@ -20,6 +20,12 @@ public class TrainingDetailsActivity extends AppCompatActivity {
     public DBHelper dbHelper = new DBHelper(this);
 
     @Override
+    protected void onDestroy() {
+        dbHelper.close();
+        super.onDestroy();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training_details);
@@ -37,6 +43,7 @@ public class TrainingDetailsActivity extends AppCompatActivity {
         ListView exercisesList = (ListView) findViewById(R.id.exerciseBeansList);
         exercisesList.setAdapter(new ExerciseBeanArrayAdapter(TrainingDetailsActivity.this, training.getExercises()));
 
+        
         Button saveButton = (Button) findViewById(R.id.save);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override

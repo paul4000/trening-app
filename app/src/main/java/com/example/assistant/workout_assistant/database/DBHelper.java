@@ -23,7 +23,7 @@ import java.util.List;
 public class DBHelper extends SQLiteOpenHelper {
 
     //DATABASE VERSION
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 6;
     //DATABASE NAME
     private static final String DATABASE_NAME = "trainingsManager";
     //SAMPLE QUERY
@@ -47,25 +47,25 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         trainings.create(db);
-        exerciseBeans.create(db);
         exercises.create(db);
+        exerciseBeans.create(db);
+        series.create(db);
         requirements.create(db);
         muscles.create(db);
-        series.create(db);
         exe_mus.create(db);
         exe_req.create(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        trainings.delete(db);
-        exerciseBeans.delete(db);
-        exercises.delete(db);
-        requirements.delete(db);
-        muscles.delete(db);
-        series.delete(db);
         exe_mus.delete(db);
         exe_req.delete(db);
+        series.delete(db);
+        requirements.delete(db);
+        muscles.delete(db);
+        exercises.delete(db);
+        exerciseBeans.delete(db);
+        trainings.delete(db);
         onCreate(db);
     }
 
@@ -140,7 +140,7 @@ public class DBHelper extends SQLiteOpenHelper {
         List<String> reqs = exercise.getRequirements();
         for(String r: reqs){
             long reqId = requirements.getId(getReadableDatabase(), r);
-            if(reqId == -1) reqId = insertRequirement(reqId);
+            if(reqId == -1) reqId = insertRequirement(r);
             if(reqId == -1) return false;
 
             if(!insertExeReq(exercise.get_id(), reqId)) return false;
@@ -158,10 +158,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.insert(exe_req.getTableName(), null, contentValues) != -1;
     }
 
-    private long insertRequirement(long reqId) {
+    private long insertRequirement(String req) {
         SQLiteDatabase db = getWritableDatabase();
 
-        ContentValues contentValues = requirements.fillContent(reqId);
+        ContentValues contentValues = requirements.fillContent(req);
 
         return db.insert(requirements.getTableName(), null, contentValues);
     }
@@ -185,7 +185,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean exerciseExist(String id){
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor =
-                db.rawQuery(SELECT_EXISTING + exercises.getTableName() + " where " + exercises.getKeyColumnName() + "=%s",
+                db.rawQuery(SELECT_EXISTING + exercises.getTableName() + " where " + exercises.getKeyColumnName() + "=?",
                         new String[]{ id });
         boolean exist = (cursor.getCount() > 0);
         cursor.close();
@@ -195,7 +195,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean trainingExist(String id){
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor =
-                db.rawQuery(SELECT_EXISTING + trainings.getTableName() + " where " + trainings.getKeyColumnName() + "=%s",
+                db.rawQuery(SELECT_EXISTING + trainings.getTableName() + " where " + trainings.getKeyColumnName() + "=?",
                         new String[]{ id });
         boolean exist = (cursor.getCount() > 0);
         cursor.close();

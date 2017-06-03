@@ -15,14 +15,14 @@ public class ExerciseBeanTableManager extends TableManager {
     @Override
     public void create(SQLiteDatabase db) {
         String q = CREATE + TABLE_EXERCISE_BEAN + "("
-                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + KEY_ID + " INTEGER PRIMARY KEY, "
                 + EXERCISE_ID + " TEXT, "
                 + TIME + " INTEGER, "
                 + LOAD + " INTEGER, "
                 + QUANTITY + " INTEGER, "
                 + TRAINING_ID + " TEXT, "
-                + "FOREIGN_KEY (" + EXERCISE_ID + ") REFERENCES exercises(" + KEY_ID +") " + DELETE_CASCADE + ", "
-                + "FOREIGN_KEY (" + TRAINING_ID +") REFERENCES trainings(" + KEY_ID + ") "+ DELETE_CASCADE +")";
+                + "FOREIGN KEY (" + EXERCISE_ID + ") REFERENCES exercises(" + KEY_ID +") " + DELETE_CASCADE + ", "
+                + "FOREIGN KEY (" + TRAINING_ID +") REFERENCES trainings(" + KEY_ID + ") "+ DELETE_CASCADE +")";
         db.execSQL(q);
     }
 

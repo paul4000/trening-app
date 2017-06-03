@@ -11,7 +11,7 @@ public class MusclesTableManager extends TableManager {
     @Override
     public void create(SQLiteDatabase db) {
         String q =  CREATE + TABLE_MUSCLES +
-                "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                "(" + KEY_ID + " INTEGER PRIMARY KEY, "
                 + NAME + " TEXT)";
         db.execSQL(q);
     }
@@ -23,7 +23,7 @@ public class MusclesTableManager extends TableManager {
 
     public long getId(SQLiteDatabase db, String name){
         Cursor cursor =
-                db.rawQuery("select 1 from " + TABLE_MUSCLES + " where " + NAME + "=%s",
+                db.rawQuery("select 1 from " + TABLE_MUSCLES + " where " + NAME + "=?",
                         new String[]{ name });
         boolean exist = cursor.moveToFirst();
         cursor.close();

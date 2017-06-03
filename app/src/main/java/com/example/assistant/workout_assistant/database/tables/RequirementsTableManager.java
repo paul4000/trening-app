@@ -11,7 +11,7 @@ public class RequirementsTableManager extends TableManager {
     @Override
     public void create(SQLiteDatabase db) {
         String q =  CREATE + TABLE_REQUIREMENTS +
-                "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                "(" + KEY_ID + " INTEGER PRIMARY KEY, "
                 + NAME + " TEXT)";
         db.execSQL(q);
     }
@@ -28,16 +28,16 @@ public class RequirementsTableManager extends TableManager {
 
     public long getId(SQLiteDatabase readableDatabase, String r) {
         Cursor cursor =
-                readableDatabase.rawQuery("select 1 from " + TABLE_REQUIREMENTS + " where " + NAME + "=%s",
+                readableDatabase.rawQuery("select 1 from " + TABLE_REQUIREMENTS + " where " + NAME + "=?",
                         new String[]{ r });
         boolean exist = cursor.moveToFirst();
         cursor.close();
         return exist ? cursor.getInt(1) : -1;
     }
 
-    public ContentValues fillContent(long reqId) {
+    public ContentValues fillContent(String req) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(NAME, reqId);
+        contentValues.put(NAME, req);
         return contentValues;
     }
 
