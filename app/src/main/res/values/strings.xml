@@ -14,5 +14,14 @@
     <string name="plan_training">Zaplanuj</string>
     <string name="delete_training">Usuń</string>
 
+    <string name="success_deleting">Usunięto trening.</string>
+    <string name="error_deleting">Nie można usunąć treningu.</string>
+    <string name="delete_confirmation">Czy na pewno chcesz usunąć trening?</string>
+
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+
+
+
 
 </resources>

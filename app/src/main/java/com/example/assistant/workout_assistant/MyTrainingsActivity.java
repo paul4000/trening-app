@@ -17,16 +17,16 @@ public class MyTrainingsActivity extends AppCompatActivity {
 
     List<Training> trainings;
     DBHelper dbHelper = new DBHelper(this);
+    ListView trainingsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_trainings);
 
-        loadTraining();
+        trainingsList = (ListView) findViewById(R.id.myTrainingsList);
 
-        ListView trainingsList = (ListView) findViewById(R.id.myTrainingsList);
-        trainingsList.setAdapter(new TrainingsArrayAdapter(this, trainings));
+        loadTraining();
 
         trainingsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -45,6 +45,13 @@ public class MyTrainingsActivity extends AppCompatActivity {
 
     public void loadTraining(){
             trainings = dbHelper.getMyTrainings();
+            trainingsList.setAdapter(new TrainingsArrayAdapter(this, trainings));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadTraining();
     }
 
     @Override

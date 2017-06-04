@@ -355,4 +355,10 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         db.close();
     }
+
+    public boolean deleteTraining(String id) {
+        SQLiteDatabase db = getWritableDatabase();
+        int delete = db.delete(TrainingsTableManager.TABLE_TRAINING, TrainingsTableManager.KEY_ID + " = ?", new String[]{id});
+        return delete == 1;
+    }
 }
