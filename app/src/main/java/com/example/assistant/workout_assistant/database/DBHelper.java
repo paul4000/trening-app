@@ -104,17 +104,17 @@ public class DBHelper extends SQLiteOpenHelper {
         String updated="";
         String name="";
 
-        String[] columns = { TrainingsTableManager.AUTHOR, TrainingsTableManager.NAME,
+        String[] columns = { TrainingsTableManager.KEY_ID, TrainingsTableManager.AUTHOR, TrainingsTableManager.NAME,
         TrainingsTableManager.UPDATE };
 
-        String where = TrainingsTableManager.KEY_ID + "=" + trainingId;
+        String where = TrainingsTableManager.KEY_ID + "=\"" + trainingId + "\"";
         Cursor cursor =
                 db.query(TrainingsTableManager.TABLE_TRAINING, columns, where, null, null, null, null);
 
         if(cursor != null && cursor.moveToFirst()){
-            author = cursor.getString(0);
-            name = cursor.getString(1);
-            updated = cursor.getString(2);
+            author = cursor.getString(1);
+            name = cursor.getString(2);
+            updated = cursor.getString(3);
             cursor.close();
         }
         List<Training.ExercisesBean> beans = getExerciseBeans(trainingId);
@@ -129,7 +129,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         String[] columns = {ExerciseBeanTableManager.KEY_ID, ExerciseBeanTableManager.EXERCISE_ID,
                 ExerciseBeanTableManager.TIME, ExerciseBeanTableManager.QUANTITY, ExerciseBeanTableManager.LOAD };
-        String where = ExerciseBeanTableManager.TRAINING_ID + "=" + trainingId;
+        String where = ExerciseBeanTableManager.TRAINING_ID + "=\"" + trainingId + "\"";
         Cursor cursor =
                 db.query(ExerciseBeanTableManager.TABLE_EXERCISE_BEAN, columns, where, null, null, null, null);
 
@@ -187,9 +187,9 @@ public class DBHelper extends SQLiteOpenHelper {
         List<String> reqs = new ArrayList<>();
 
         String[] columns = { ExerciseTableManager.DESCRIPTION, ExerciseTableManager.NAME, ExerciseTableManager.PLACE };
-        String where = ExerciseTableManager.KEY_ID + "="+ exerciseId;
+        String where = ExerciseTableManager.KEY_ID + "=\""+ exerciseId + "\"";
         Cursor cursor =
-                db.query(TrainingsTableManager.TABLE_TRAINING, columns, where, null, null, null, null);
+                db.query(ExerciseTableManager.TABLE_EXERCISE, columns, where, null, null, null, null);
 
         if(cursor.moveToFirst()){
             description = cursor.getString(0);

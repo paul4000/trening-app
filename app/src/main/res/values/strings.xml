@@ -11,5 +11,8 @@
     <string name="success_download">Pobrano trening.</string>
     <string name="error_download">Wystąpił błąd podczas pobierania treningu.</string>
 
+    <string name="plan_training">Zaplanuj</string>
+    <string name="delete_training">Usuń</string>
+
 
 </resources>

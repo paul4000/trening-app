@@ -23,6 +23,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button toMyTrainings = (Button) findViewById(R.id.browseMyTrain);
+        toMyTrainings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MyTrainingsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

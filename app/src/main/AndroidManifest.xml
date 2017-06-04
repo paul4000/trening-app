@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".WebTrainingsActivity" />
-        <activity android:name=".TrainingDetailsActivity"></activity>
+        <activity android:name=".TrainingDetailsActivity" />
+        <activity android:name=".MyTrainingsActivity"></activity>
     </application>
 
 </manifest>
