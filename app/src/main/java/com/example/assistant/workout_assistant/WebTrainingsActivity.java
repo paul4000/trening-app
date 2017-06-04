@@ -37,6 +37,7 @@ public class WebTrainingsActivity extends AppCompatActivity {
                 Intent intent = new Intent(WebTrainingsActivity.this, TrainingDetailsActivity.class);
                 Training trainingAtPosition = (Training) parent.getItemAtPosition(position);
                 intent.putExtra("TRAINING", trainingAtPosition);
+                intent.putExtra("MODE", "WEB");
 
                 startActivity(intent);
             }
@@ -49,7 +50,6 @@ public class WebTrainingsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Training>> call, Response<List<Training>> response) {
                 webTrainings = response.body();
-
                 ListView trainingsView = (ListView) findViewById(R.id.trainingsList);
                 trainingsView.setAdapter(new TrainingsArrayAdapter(WebTrainingsActivity.this, webTrainings));
             }

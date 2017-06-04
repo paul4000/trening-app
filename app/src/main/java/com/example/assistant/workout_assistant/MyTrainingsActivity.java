@@ -1,7 +1,10 @@
 package com.example.assistant.workout_assistant;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.assistant.workout_assistant.adapters.TrainingsArrayAdapter;
@@ -24,6 +27,19 @@ public class MyTrainingsActivity extends AppCompatActivity {
 
         ListView trainingsList = (ListView) findViewById(R.id.myTrainingsList);
         trainingsList.setAdapter(new TrainingsArrayAdapter(this, trainings));
+
+        trainingsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MyTrainingsActivity.this, TrainingDetailsActivity.class);
+                Training trainingAtPosition = (Training) parent.getItemAtPosition(position);
+                intent.putExtra("TRAINING", trainingAtPosition);
+                intent.putExtra("MODE", "EDIT");
+
+                startActivity(intent);
+            }
+        });
+
 
     }
 
