@@ -9,10 +9,10 @@ import com.example.assistant.workout_assistant.exercises.Training;
 public class TrainingsTableManager extends TableManager {
 
     //NAME
-    private static final String TABLE_TRAINING = "trainings";
+    public static final String TABLE_TRAINING = "trainings";
     //COLUMNS
-    private static final String AUTHOR = "author";
-    private static final String UPDATE = "updated";
+    public static final String AUTHOR = "author";
+    public static final String UPDATE = "updated";
 
     @Override
     public void create(SQLiteDatabase db) {

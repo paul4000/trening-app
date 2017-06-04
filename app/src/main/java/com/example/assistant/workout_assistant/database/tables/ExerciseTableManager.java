@@ -8,11 +8,11 @@ import com.example.assistant.workout_assistant.exercises.Exercise;
 
 public class ExerciseTableManager extends TableManager {
 
-    private static final String TABLE_EXERCISE = "exercises";
+    public static final String TABLE_EXERCISE = "exercises";
 
     //COLUMNS
-    private static final String DESCRIPTION = "description";
-    private static final String PLACE = "place";
+    public static final String DESCRIPTION = "description";
+    public static final String PLACE = "place";
 
 
     @Override

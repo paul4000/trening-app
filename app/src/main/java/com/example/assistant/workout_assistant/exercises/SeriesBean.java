@@ -15,6 +15,13 @@ public class SeriesBean implements Serializable {
     private int load;
     private String _id;
 
+    public SeriesBean(int time, int quantity, int load, String _id) {
+        this.time = time;
+        this.quantity = quantity;
+        this.load = load;
+        this._id = _id;
+    }
+
     public int getLoad() {
         return load;
     }

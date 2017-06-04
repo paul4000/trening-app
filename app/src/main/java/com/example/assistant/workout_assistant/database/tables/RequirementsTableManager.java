@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class RequirementsTableManager extends TableManager {
 
-    private static final String TABLE_REQUIREMENTS = "requirements";
+    public static final String TABLE_REQUIREMENTS = "requirements";
 
     @Override
     public void create(SQLiteDatabase db) {

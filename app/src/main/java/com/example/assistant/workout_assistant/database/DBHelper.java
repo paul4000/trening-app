@@ -18,6 +18,7 @@ import com.example.assistant.workout_assistant.exercises.Exercise;
 import com.example.assistant.workout_assistant.exercises.SeriesBean;
 import com.example.assistant.workout_assistant.exercises.Training;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -73,6 +74,153 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);
         db.execSQL("PRAGMA foreign_keys=ON");
+    }
+
+    public List<Training> getMyTrainings(){
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        List<Training> trainings = new ArrayList<>();
+
+        String[] columns = { TrainingsTableManager.KEY_ID };
+        Cursor cursor = db.query(TrainingsTableManager.TABLE_TRAINING, columns, null, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                trainings.add(getTraining(cursor.getString(0)));
+            }while(cursor.moveToNext());
+
+            cursor.close();
+        }
+
+        return trainings;
+    }
+
+    public Training getTraining(String trainingId){
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        String author="";
+        String updated="";
+        String name="";
+
+        String[] columns = { TrainingsTableManager.AUTHOR, TrainingsTableManager.NAME,
+        TrainingsTableManager.UPDATE };
+
+        String where = TrainingsTableManager.KEY_ID + "=" + trainingId;
+        Cursor cursor =
+                db.query(TrainingsTableManager.TABLE_TRAINING, columns, where, null, null, null, null);
+
+        if(cursor != null && cursor.moveToFirst()){
+            author = cursor.getString(0);
+            name = cursor.getString(1);
+            updated = cursor.getString(2);
+            cursor.close();
+        }
+        List<Training.ExercisesBean> beans = getExerciseBeans(trainingId);
+
+        return new Training(trainingId, author, name, 0, updated, beans);
+
+    }
+
+    private List<Training.ExercisesBean> getExerciseBeans(String trainingId) {
+        SQLiteDatabase db = getReadableDatabase();
+        List<Training.ExercisesBean> exercisesBeenList = new ArrayList<>();
+
+        String[] columns = {ExerciseBeanTableManager.KEY_ID, ExerciseBeanTableManager.EXERCISE_ID,
+                ExerciseBeanTableManager.TIME, ExerciseBeanTableManager.QUANTITY, ExerciseBeanTableManager.LOAD };
+        String where = ExerciseBeanTableManager.TRAINING_ID + "=" + trainingId;
+        Cursor cursor =
+                db.query(ExerciseBeanTableManager.TABLE_EXERCISE_BEAN, columns, where, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            do {
+                int beanId = cursor.getInt(0);
+                Exercise exercise = getExercise(cursor.getString(1));
+                boolean time = cursor.getInt(2) == 1;
+                boolean quantity = cursor.getInt(3) == 1;
+                boolean load = cursor.getInt(4) == 1;
+                List<SeriesBean> series = getSeries(beanId);
+
+                exercisesBeenList.add(new Training.ExercisesBean(exercise, time, quantity, load, "", series));
+
+            }while(cursor.moveToNext());
+
+            cursor.close();
+        }
+
+        return exercisesBeenList;
+    }
+
+    private List<SeriesBean> getSeries(int beanId) {
+        SQLiteDatabase db = getReadableDatabase();
+        List<SeriesBean> seriesBeen = new ArrayList<>();
+
+        String[] columns = {SeriesTableManager.TIME, SeriesTableManager.QUANTITY, SeriesTableManager.LOAD};
+        String where = SeriesTableManager.EXE_BEAN_ID + "=" + beanId;
+
+        Cursor cursor = db.query(SeriesTableManager.TABLE_SERIES, columns, where, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            do {
+                int time = cursor.getInt(0);
+                int quantity = cursor.getInt(1);
+                int load = cursor.getInt(2);
+
+                seriesBeen.add(new SeriesBean(time, quantity, load, ""));
+
+
+            }while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return seriesBeen;
+    }
+
+    public Exercise getExercise(String exerciseId){
+        SQLiteDatabase db = getReadableDatabase();
+
+        String description="";
+        String name="";
+        String place="";
+        List<String> muscles = new ArrayList<>();
+        List<String> reqs = new ArrayList<>();
+
+        String[] columns = { ExerciseTableManager.DESCRIPTION, ExerciseTableManager.NAME, ExerciseTableManager.PLACE };
+        String where = ExerciseTableManager.KEY_ID + "="+ exerciseId;
+        Cursor cursor =
+                db.query(TrainingsTableManager.TABLE_TRAINING, columns, where, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            description = cursor.getString(0);
+            name = cursor.getString(1);
+            place = cursor.getString(2);
+            cursor.close();
+        }
+
+        String queryForMuscles = exe_mus.getQueryForExercisesAndMuscles();
+
+        Cursor cursorMuscles = db.rawQuery(queryForMuscles + " where exercise_id =?", new String[] { exerciseId });
+
+        if(cursorMuscles.moveToFirst()){
+            do{
+                muscles.add(cursorMuscles.getString(1));
+            }while (cursorMuscles.moveToNext());
+            cursorMuscles.close();
+        }
+
+        String queryForRequirements = exe_req.getQueryForExercisesAndRequirements();
+
+        Cursor cursorReq = db.rawQuery(queryForRequirements + " where exercise_id =?", new String[] { exerciseId });
+
+        if(cursorReq.moveToFirst()){
+            do{
+                reqs.add(cursorReq.getString(1));
+            }while (cursorReq.moveToNext());
+            cursorReq.close();
+        }
+        return new Exercise(exerciseId, description, name, place, 0, reqs, muscles);
+
     }
 
     public boolean insertTraining(Training training){

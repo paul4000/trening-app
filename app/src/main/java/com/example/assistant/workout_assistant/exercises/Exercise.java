@@ -23,6 +23,16 @@ public class Exercise implements Serializable{
     private List<String> requirements;
     private List<String> muscles;
 
+    public Exercise(String _id, String description, String name, String place, int __v, List<String> requirements, List<String> muscles) {
+        this._id = _id;
+        this.description = description;
+        this.name = name;
+        this.place = place;
+        this.__v = __v;
+        this.requirements = requirements;
+        this.muscles = muscles;
+    }
+
     public String get_id() {
         return _id;
     }

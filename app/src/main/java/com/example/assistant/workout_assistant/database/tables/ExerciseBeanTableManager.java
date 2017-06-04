@@ -7,10 +7,10 @@ import com.example.assistant.workout_assistant.exercises.Training;
 
 public class ExerciseBeanTableManager extends TableManager {
 
-    private static final String TABLE_EXERCISE_BEAN = "exercise_beans";
+     public static final String TABLE_EXERCISE_BEAN = "exercise_beans";
 
     //COLUMNS
-    private static final String TRAINING_ID = "training_id";
+     public static final String TRAINING_ID = "training_id";
 
     @Override
     public void create(SQLiteDatabase db) {

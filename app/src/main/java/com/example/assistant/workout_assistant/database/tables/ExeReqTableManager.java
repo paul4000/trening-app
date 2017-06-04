@@ -5,10 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class ExeReqTableManager extends TableManager {
 
-    private static final String TABLE_EXE_REQ = "exe_req";
+    public static final String TABLE_EXE_REQ = "exe_req";
 
     //COLUMNS
-    private static final String REQ_ID = "requirement_id";
+    public static final String REQ_ID = "requirement_id";
 
     @Override
     public void create(SQLiteDatabase db) {
@@ -36,5 +36,15 @@ public class ExeReqTableManager extends TableManager {
         c.put(EXERCISE_ID, id);
         c.put(REQ_ID, reqId);
         return c;
+    }
+    public String getQueryForExercisesAndRequirements(){
+        return "select " + ExerciseTableManager.TABLE_EXERCISE+ "."+ ExerciseTableManager.KEY_ID + " as exercise_id, "
+                + RequirementsTableManager.TABLE_REQUIREMENTS + "." + RequirementsTableManager.NAME + " as requirement"+
+                " from " + ExeReqTableManager.TABLE_EXE_REQ
+                + " inner join " + ExerciseTableManager.TABLE_EXERCISE + " on " +
+                ExerciseTableManager.TABLE_EXERCISE+"."+ExerciseTableManager.KEY_ID + "=" + ExeReqTableManager.TABLE_EXE_REQ + "."+ExeReqTableManager.EXERCISE_ID
+                + " inner join " + RequirementsTableManager.TABLE_REQUIREMENTS + " on " +
+                RequirementsTableManager.TABLE_REQUIREMENTS+"."+RequirementsTableManager.KEY_ID + "=" + ExeReqTableManager.TABLE_EXE_REQ + "."+ExeReqTableManager.REQ_ID;
+
     }
 }

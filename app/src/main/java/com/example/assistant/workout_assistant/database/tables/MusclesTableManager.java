@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class MusclesTableManager extends TableManager {
 
-    private static final String TABLE_MUSCLES = "muscles";
+    public static final String TABLE_MUSCLES = "muscles";
 
     @Override
     public void create(SQLiteDatabase db) {

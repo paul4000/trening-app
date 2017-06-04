@@ -21,6 +21,14 @@ public class Training implements Serializable{
     private String updated;
     private List<ExercisesBean> exercises;
 
+    public Training(String _id, String author, String name, int __v, String updated, List<ExercisesBean> exercises) {
+        this._id = _id;
+        this.author = author;
+        this.name = name;
+        this.__v = __v;
+        this.updated = updated;
+        this.exercises = exercises;
+    }
 
     public String get_id() {
         return _id;
@@ -87,6 +95,15 @@ public class Training implements Serializable{
         private boolean load;
         private String _id;
         private List<SeriesBean> series;
+
+        public ExercisesBean(Exercise exercise, boolean time, boolean quantity, boolean load, String _id, List<SeriesBean> series) {
+            this.exercise = exercise;
+            this.time = time;
+            this.quantity = quantity;
+            this.load = load;
+            this._id = _id;
+            this.series = series;
+        }
 
         public Exercise getExercise() {
             return exercise;

@@ -8,10 +8,10 @@ import com.example.assistant.workout_assistant.exercises.SeriesBean;
 
 public class SeriesTableManager extends TableManager {
 
-    private static final String TABLE_SERIES = "series";
+    public static final String TABLE_SERIES = "series";
 
     //COLUMNS
-    private static final String EXE_BEAN_ID = "exe_bean_id";
+    public static final String EXE_BEAN_ID = "exe_bean_id";
 
     @Override
     public void create(SQLiteDatabase db) {

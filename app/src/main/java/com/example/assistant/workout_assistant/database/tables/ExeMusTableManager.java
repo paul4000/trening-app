@@ -5,10 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class ExeMusTableManager extends TableManager {
 
-    private static final String TABLE_EXE_MUSCLES = "exe_mus";
+    public  static final String TABLE_EXE_MUSCLES = "exe_mus";
 
     //COLUMNS
-    private static final String MUSCLE_ID = "muscle_id";
+    public static final String MUSCLE_ID = "muscle_id";
 
     @Override
     public void create(SQLiteDatabase db) {
@@ -37,5 +37,15 @@ public class ExeMusTableManager extends TableManager {
         c.put(EXERCISE_ID, id);
         c.put(MUSCLE_ID,  muscleId);
         return c;
+    }
+
+    public String getQueryForExercisesAndMuscles() {
+        return "select " + ExerciseTableManager.TABLE_EXERCISE+ "."+ ExerciseTableManager.KEY_ID + " as exercise_id, "
+                + MusclesTableManager.TABLE_MUSCLES + "." + MusclesTableManager.NAME + " as muscle"+
+                " from " + ExeMusTableManager.TABLE_EXE_MUSCLES
+                + " inner join " + ExerciseTableManager.TABLE_EXERCISE + " on " +
+                ExerciseTableManager.TABLE_EXERCISE+"."+ExerciseTableManager.KEY_ID + "=" + ExeMusTableManager.TABLE_EXE_MUSCLES + "."+ExeMusTableManager.EXERCISE_ID
+                + " inner join " + MusclesTableManager.TABLE_MUSCLES + " on " +
+                MusclesTableManager.TABLE_MUSCLES+"."+MusclesTableManager.KEY_ID + "=" + ExeMusTableManager.TABLE_EXE_MUSCLES + "."+ExeMusTableManager.MUSCLE_ID;
     }
 }
