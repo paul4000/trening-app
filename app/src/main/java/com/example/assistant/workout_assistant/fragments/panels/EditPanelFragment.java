@@ -1,4 +1,4 @@
-package com.example.assistant.workout_assistant.fragments;
+package com.example.assistant.workout_assistant.fragments.panels;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.assistant.workout_assistant.MyTrainingsActivity;
+import com.example.assistant.workout_assistant.PlanTrainingActivity;
 import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
 import com.example.assistant.workout_assistant.exercises.Training;
@@ -70,11 +71,6 @@ public class EditPanelFragment extends Fragment {
         };
     }
 
-    private void backToTrainingsList() {
-        Intent intent = new Intent(context, MyTrainingsActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,6 +87,17 @@ public class EditPanelFragment extends Fragment {
                         .setPositiveButton(R.string.yes, deleteDialog)
                         .setNegativeButton(R.string.no, deleteDialog)
                         .show();
+            }
+        });
+
+        final Button planButton = (Button) view.findViewById(R.id.planning_button);
+
+        planButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PlanTrainingActivity.class);
+                intent.putExtra("TRAINING_ID", training.get_id());
+                startActivity(intent);
             }
         });
 

@@ -1,4 +1,4 @@
-package com.example.assistant.workout_assistant.fragments;
+package com.example.assistant.workout_assistant.fragments.panels;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.assistant.workout_assistant.R;
-import com.example.assistant.workout_assistant.database.DBHelper;
 import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
 import com.example.assistant.workout_assistant.exercises.Training;
 

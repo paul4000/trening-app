@@ -21,6 +21,10 @@
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
 
+    <string name="set_date">Ustaw datę i godzinę rozpoczęcia treningu</string>
+
+    <string name="change_button">Zmień</string>
+    <string name="save_button">Zapisz</string>
 
 
 

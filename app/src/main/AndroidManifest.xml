@@ -20,7 +20,8 @@
         </activity>
         <activity android:name=".WebTrainingsActivity" />
         <activity android:name=".TrainingDetailsActivity" />
-        <activity android:name=".MyTrainingsActivity"></activity>
+        <activity android:name=".MyTrainingsActivity" />
+        <activity android:name=".PlanTrainingActivity"></activity>
     </application>
 
 </manifest>
