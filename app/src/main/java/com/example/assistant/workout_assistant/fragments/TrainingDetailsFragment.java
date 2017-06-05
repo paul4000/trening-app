@@ -22,7 +22,6 @@ public class TrainingDetailsFragment extends Fragment {
 
     }
 
-
     public static TrainingDetailsFragment newInstance(Training training) {
         TrainingDetailsFragment fragment = new TrainingDetailsFragment();
         Bundle args = new Bundle();

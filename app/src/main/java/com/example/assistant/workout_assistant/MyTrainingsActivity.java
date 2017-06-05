@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import com.example.assistant.workout_assistant.adapters.TrainingsArrayAdapter;
 import com.example.assistant.workout_assistant.database.DBHelper;
+import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
 import com.example.assistant.workout_assistant.exercises.Training;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 public class MyTrainingsActivity extends AppCompatActivity {
 
     List<Training> trainings;
-    DBHelper dbHelper = new DBHelper(this);
+    TrainingsDAO trainingsDAO = new TrainingsDAO(this);
     ListView trainingsList;
 
     @Override
@@ -44,7 +45,7 @@ public class MyTrainingsActivity extends AppCompatActivity {
     }
 
     public void loadTraining(){
-            trainings = dbHelper.getMyTrainings();
+            trainings = trainingsDAO.getMyTrainings();
             trainingsList.setAdapter(new TrainingsArrayAdapter(this, trainings));
     }
 
@@ -56,7 +57,7 @@ public class MyTrainingsActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        dbHelper.close();
+        trainingsDAO.close();
         super.onDestroy();
     }
 }

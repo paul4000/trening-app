@@ -1,34 +1,35 @@
 package com.example.assistant.workout_assistant.database.tables;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class RequirementsTableManager extends TableManager {
+public class RequirementsDAO extends DAO {
 
     public static final String TABLE_REQUIREMENTS = "requirements";
 
-    @Override
-    public void create(SQLiteDatabase db) {
-        String q =  CREATE + TABLE_REQUIREMENTS +
+    public static String CREATE_QUERY = CREATE + TABLE_REQUIREMENTS +
                 "(" + KEY_ID + " INTEGER PRIMARY KEY, "
                 + NAME + " TEXT)";
-        db.execSQL(q);
+
+    public static String DELETE_QUERY = DELETE + TABLE_REQUIREMENTS;
+
+    protected RequirementsDAO(Context context) {
+        super(context);
     }
 
-    @Override
-    public void delete(SQLiteDatabase db) {
-        db.execSQL(DELETE + TABLE_REQUIREMENTS);
-    }
+    public long insertRequirement(String req) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-    @Override
-    public String getTableName() {
-        return TABLE_REQUIREMENTS;
-    }
+        ContentValues contentValues = fillContent(req);
 
-    public long getId(SQLiteDatabase readableDatabase, String r) {
+        return db.insert(TABLE_REQUIREMENTS, null, contentValues);
+    }
+    public long getId(String r) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor =
-                readableDatabase.rawQuery("select 1 from " + TABLE_REQUIREMENTS + " where " + NAME + "=?",
+                db.rawQuery("select 1 from " + TABLE_REQUIREMENTS + " where " + NAME + "=?",
                         new String[]{ r });
         boolean exist = cursor.moveToFirst();
         cursor.close();

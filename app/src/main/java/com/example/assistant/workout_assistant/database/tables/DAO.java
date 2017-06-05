@@ -1,13 +1,19 @@
 package com.example.assistant.workout_assistant.database.tables;
 
 
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Context;
 
-public abstract class TableManager {
+import com.example.assistant.workout_assistant.database.DBHelper;
+
+public abstract class DAO {
+
+
+     protected DBHelper dbHelper;
 
      static final String CREATE = "CREATE TABLE ";
      static final String DELETE = "DROP TABLE IF EXISTS ";
      static final String DELETE_CASCADE = "ON DELETE CASCADE";
+     static final String SELECT_EXISTING = "select 1 from ";
 
 
     //COMMON COLUMN NAMES
@@ -18,11 +24,15 @@ public abstract class TableManager {
     public static final String QUANTITY = "quantity";
     public static final String EXERCISE_ID = "exercise_id";
 
-    public abstract void create(SQLiteDatabase db);
-    public abstract void delete(SQLiteDatabase db);
-    public abstract String getTableName();
-    public String getKeyColumnName(){
-        return KEY_ID;
+
+
+    protected DAO(Context context){
+        dbHelper = new DBHelper(context);
     }
+
+    public void close(){
+        dbHelper.close();
+    }
+
 
 }

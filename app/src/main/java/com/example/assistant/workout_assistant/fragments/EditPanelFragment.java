@@ -14,13 +14,13 @@ import android.widget.Toast;
 
 import com.example.assistant.workout_assistant.MyTrainingsActivity;
 import com.example.assistant.workout_assistant.R;
-import com.example.assistant.workout_assistant.database.DBHelper;
+import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
 import com.example.assistant.workout_assistant.exercises.Training;
 
 public class EditPanelFragment extends Fragment {
 
     private Training training;
-    DBHelper dbHelper;
+    TrainingsDAO trainingsDAO;
     DialogInterface.OnClickListener deleteDialog;
     Context context;
 
@@ -41,7 +41,7 @@ public class EditPanelFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         training = (Training) getArguments().getSerializable("TRAINING");
-        dbHelper = new DBHelper(getActivity());
+        trainingsDAO = new TrainingsDAO(getActivity());
         deleteDialog = createDeletionDialog();
         context = getActivity();
     }
@@ -53,7 +53,7 @@ public class EditPanelFragment extends Fragment {
                 switch(which){
                     case DialogInterface.BUTTON_POSITIVE:
 
-                        boolean result = dbHelper.deleteTraining(training.get_id());
+                        boolean result = trainingsDAO.deleteTraining(training.get_id());
 
                         String info;
                         if(result) info = getString(R.string.success_deleting);
@@ -104,7 +104,7 @@ public class EditPanelFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        dbHelper.close();
+        trainingsDAO.close();
         super.onDestroy();
     }
 }

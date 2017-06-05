@@ -11,13 +11,14 @@ import android.widget.Toast;
 
 import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.database.DBHelper;
+import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
 import com.example.assistant.workout_assistant.exercises.Training;
 
 public class DownloadPanelFragment extends Fragment {
 
 
     private Training training;
-    DBHelper dbHelper;
+    TrainingsDAO trainingsDAO;
 
     public DownloadPanelFragment() {
     }
@@ -34,7 +35,7 @@ public class DownloadPanelFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         training = (Training) getArguments().getSerializable("TRAINING");
-        dbHelper = new DBHelper(getActivity());
+        trainingsDAO = new TrainingsDAO(getActivity());
     }
 
     @Override
@@ -43,13 +44,13 @@ public class DownloadPanelFragment extends Fragment {
         final View view = inflater.inflate(R.layout.download_panel_fragment, container, false);
         final Button saveButton = (Button) view.findViewById(R.id.save);
 
-        if(dbHelper.trainingExist(training.get_id())) disableButtonIfCannotDownload(saveButton, view);
+        if(trainingsDAO.trainingExist(training.get_id())) disableButtonIfCannotDownload(saveButton, view);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String info;
-                boolean downloaded = dbHelper.insertTraining(training);
+                boolean downloaded = trainingsDAO.insertTraining(training);
                 if(downloaded) info = getString(R.string.success_download);
                 else info = getString(R.string.error_download);
                 Toast.makeText(getActivity(), info, Toast.LENGTH_SHORT).show();
@@ -69,7 +70,7 @@ public class DownloadPanelFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        dbHelper.close();
+        trainingsDAO.close();
         super.onDestroy();
     }
 
