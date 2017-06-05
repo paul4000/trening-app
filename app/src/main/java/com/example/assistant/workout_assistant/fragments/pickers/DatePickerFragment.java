@@ -3,12 +3,8 @@ package com.example.assistant.workout_assistant.fragments.pickers;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.text.format.DateFormat;
 import android.widget.DatePicker;
-
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 

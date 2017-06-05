@@ -9,6 +9,7 @@ import com.example.assistant.workout_assistant.database.tables.ExeReqDAO;
 import com.example.assistant.workout_assistant.database.tables.ExerciseBeanDAO;
 import com.example.assistant.workout_assistant.database.tables.ExerciseDAO;
 import com.example.assistant.workout_assistant.database.tables.MusclesDAO;
+import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsDAO;
 import com.example.assistant.workout_assistant.database.tables.RequirementsDAO;
 import com.example.assistant.workout_assistant.database.tables.SeriesDAO;
 import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
@@ -16,7 +17,7 @@ import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
 public class DBHelper extends SQLiteOpenHelper {
 
     //DATABASE VERSION
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 7;
     //DATABASE NAME
     private static final String DATABASE_NAME = "trainingsManager";
 
@@ -36,10 +37,12 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(MusclesDAO.CREATE_QUERY);
         db.execSQL(ExeMusDAO.CREATE_QUERY);
         db.execSQL(ExeReqDAO.CREATE_QUERY);
+        db.execSQL(PlannedTrainingsDAO.CREATE_QUERY);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL(PlannedTrainingsDAO.DELETE_QUERY);
         db.execSQL(ExeMusDAO.DELETE_QUERY);
         db.execSQL(ExeReqDAO.DELETE_QUERY);
         db.execSQL(SeriesDAO.DELETE_QUERY);

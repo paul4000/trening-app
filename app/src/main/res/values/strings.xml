@@ -26,6 +26,9 @@
     <string name="change_button">Zmień</string>
     <string name="save_button">Zapisz</string>
 
+    <string name="notification_before">Masz trening za pół godziny!</string>
+    <string name="notification_now">Idź ćwiczyć!</string>
+
 
 
 </resources>

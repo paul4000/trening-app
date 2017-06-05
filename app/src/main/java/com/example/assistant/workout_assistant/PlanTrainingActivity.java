@@ -1,27 +1,17 @@
 package com.example.assistant.workout_assistant;
 
-import android.app.DialogFragment;
 import android.app.FragmentManager;
-import android.app.TimePickerDialog;
-import android.content.Context;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.example.assistant.workout_assistant.fragments.pickers.DatePickerFragment;
 import com.example.assistant.workout_assistant.fragments.pickers.TimePickerFragment;
 
-import org.w3c.dom.Text;
-
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
