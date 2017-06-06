@@ -17,7 +17,7 @@ import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
 public class DBHelper extends SQLiteOpenHelper {
 
     //DATABASE VERSION
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
     //DATABASE NAME
     private static final String DATABASE_NAME = "trainingsManager";
 

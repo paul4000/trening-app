@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.assistant.workout_assistant.MyTrainingsActivity;
 import com.example.assistant.workout_assistant.PlanTrainingActivity;
 import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsDAO;
@@ -92,7 +91,7 @@ public class EditPanelFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_edit_panel, container, false);
 
-        final Button deleteButton = (Button) view.findViewById(R.id.delete_button);
+        final Button deleteButton = (Button) view.findViewById(R.id.deleteTrainingButton);
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +105,7 @@ public class EditPanelFragment extends Fragment {
             }
         });
 
-        final Button planButton = (Button) view.findViewById(R.id.planning_button);
+        final Button planButton = (Button) view.findViewById(R.id.planningButton);
 
         planButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +127,7 @@ public class EditPanelFragment extends Fragment {
     @Override
     public void onDestroy() {
         trainingsDAO.close();
+        plannedTrainingsDAO.close();
         super.onDestroy();
     }
 }

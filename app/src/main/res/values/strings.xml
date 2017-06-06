@@ -31,5 +31,6 @@
 
     <string name="planned_training">Zaplanowano trening.</string>
     <string name="non_planned_training">Nie można zaplanować treningu.</string>
-
+    <string name="browse_planned_trainings">Przeglądaj zaplanowane treningi</string>
+    <string name="deletion_of_planned_trainig">Usunięto plan treningu.</string>
 </resources>

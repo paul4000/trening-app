@@ -35,11 +35,11 @@ public class TrainingDetailsActivity extends AppCompatActivity {
 
 
         getSupportFragmentManager().beginTransaction()
-        .replace(R.id.detailsFragment, detailsFragment)
-        .commit();
+                .replace(R.id.detailsFragment, detailsFragment)
+                .commit();
 
 
-        if(mode.equals("WEB")){
+        if (mode.equals("WEB")) {
 
             downloadPanelFragment = DownloadPanelFragment.newInstance(training);
             getSupportFragmentManager().beginTransaction()
