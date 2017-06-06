@@ -26,7 +26,9 @@
         <receiver
             android:name=".notifications.AlarmReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true">
+
+        </receiver>
     </application>
 
 </manifest>
