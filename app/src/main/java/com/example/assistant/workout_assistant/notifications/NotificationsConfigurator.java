@@ -23,7 +23,14 @@ public class NotificationsConfigurator {
         alarmIntent.putExtra("TRAINING_NAME", trainingName);
         alarmIntent.putExtra("NOTI_ID", notificationId);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, alarmIntent, 0);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+    }
+
+    public void cancelNotification(Context context, int notificationId){
+        Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, alarmIntent, 0);
+        alarmManager.cancel(pendingIntent);
     }
 }

@@ -2,7 +2,11 @@ package com.example.assistant.workout_assistant.database.tables;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class PlannedTrainingsDAO extends DAO {
@@ -47,4 +51,30 @@ public class PlannedTrainingsDAO extends DAO {
     }
 
 
+    public List<Integer> getAllNotificationsForTraining(String trainingId) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        List<Integer> notificationsList = new ArrayList<>();
+
+        String[] columns = { NOTIFICATION_BEFORE, NOTIFICATION_NOW};
+
+        String where = TRAINING_ID + "=\"" + trainingId + "\"";
+        Cursor cursor = db.query(TABLE_PLANNED_TRAININGS, columns, where, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                int beforeId = cursor.getInt(0);
+                int nowId = cursor.getInt(1);
+
+                if(beforeId >= 0) notificationsList.add(beforeId);
+
+                notificationsList.add(nowId);
+
+            }while (cursor.moveToNext());
+
+            cursor.close();
+        }
+
+        return notificationsList;
+    }
 }

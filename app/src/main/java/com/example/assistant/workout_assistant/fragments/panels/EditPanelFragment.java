@@ -15,8 +15,12 @@ import android.widget.Toast;
 import com.example.assistant.workout_assistant.MyTrainingsActivity;
 import com.example.assistant.workout_assistant.PlanTrainingActivity;
 import com.example.assistant.workout_assistant.R;
+import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsDAO;
 import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
 import com.example.assistant.workout_assistant.exercises.Training;
+import com.example.assistant.workout_assistant.notifications.NotificationsConfigurator;
+
+import java.util.List;
 
 public class EditPanelFragment extends Fragment {
 
@@ -24,6 +28,9 @@ public class EditPanelFragment extends Fragment {
     TrainingsDAO trainingsDAO;
     DialogInterface.OnClickListener deleteDialog;
     Context context;
+
+    NotificationsConfigurator notificationsConfigurator;
+    PlannedTrainingsDAO plannedTrainingsDAO;
 
 
     public EditPanelFragment() {
@@ -43,8 +50,10 @@ public class EditPanelFragment extends Fragment {
         super.onCreate(savedInstanceState);
         training = (Training) getArguments().getSerializable("TRAINING");
         trainingsDAO = new TrainingsDAO(getActivity());
+        plannedTrainingsDAO = new PlannedTrainingsDAO(getActivity());
         deleteDialog = createDeletionDialog();
         context = getActivity();
+        notificationsConfigurator = new NotificationsConfigurator(context);
     }
 
     private DialogInterface.OnClickListener createDeletionDialog() {
@@ -54,7 +63,14 @@ public class EditPanelFragment extends Fragment {
                 switch(which){
                     case DialogInterface.BUTTON_POSITIVE:
 
+                        List<Integer> notificationIds = plannedTrainingsDAO.getAllNotificationsForTraining(training.get_id());
                         boolean result = trainingsDAO.deleteTraining(training.get_id());
+
+                        if(result){
+                            for(int notificationId: notificationIds){
+                                notificationsConfigurator.cancelNotification(context, notificationId);
+                            }
+                        }
 
                         String info;
                         if(result) info = getString(R.string.success_deleting);
