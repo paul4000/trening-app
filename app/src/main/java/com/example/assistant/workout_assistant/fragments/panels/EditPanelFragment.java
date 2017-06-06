@@ -96,7 +96,7 @@ public class EditPanelFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PlanTrainingActivity.class);
-                intent.putExtra("TRAINING_ID", training.get_id());
+                intent.putExtra("TRAINING", training);
                 startActivity(intent);
             }
         });

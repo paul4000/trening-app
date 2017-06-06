@@ -29,6 +29,7 @@
     <string name="notification_before">Masz trening za pół godziny!</string>
     <string name="notification_now">Idź ćwiczyć!</string>
 
-
+    <string name="planned_training">Zaplanowano trening.</string>
+    <string name="non_planned_training">Nie można zaplanować treningu.</string>
 
 </resources>

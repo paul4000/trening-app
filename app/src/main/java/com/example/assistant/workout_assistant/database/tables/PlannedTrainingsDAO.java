@@ -18,28 +18,29 @@ public class PlannedTrainingsDAO extends DAO {
     public static final String CREATE_QUERY = CREATE + TABLE_PLANNED_TRAININGS
             + "(" + KEY_ID + " INTEGER PRIMARY KEY, "
             + TRAINING_ID + " TEXT, "
-            + DATE + " DATETIME, "
+            + DATE + " TEXT, "
             + NOTIFICATION_BEFORE + " INTEGER, "
             + NOTIFICATION_NOW + " INTEGER, "
             + "FOREIGN KEY (" + TRAINING_ID +") REFERENCES trainings(" + KEY_ID + ") "+ DELETE_CASCADE +")";
 
     public static final String DELETE_QUERY = DELETE + TABLE_PLANNED_TRAININGS;
 
-    protected PlannedTrainingsDAO(Context context) {
+    public PlannedTrainingsDAO(Context context) {
         super(context);
     }
 
-    public boolean insertPlannedTraining(String trainingId, long notIdBefore, long notIdNow){
+    public boolean insertPlannedTraining(String trainingId, String date, int notIdBefore, int notIdNow){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        ContentValues values = fillValues(trainingId, notIdBefore, notIdNow);
+        ContentValues values = fillValues(trainingId, date, notIdBefore, notIdNow);
 
         return db.insert(TABLE_PLANNED_TRAININGS, null, values) != -1;
     }
 
-    private ContentValues fillValues(String trainingId, long notIdBefore, long notIdNow) {
+    private ContentValues fillValues(String trainingId, String date, int notIdBefore, int notIdNow) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TRAINING_ID, trainingId);
+        contentValues.put(DATE, date);
         contentValues.put(NOTIFICATION_BEFORE, notIdBefore);
         contentValues.put(NOTIFICATION_NOW, notIdNow);
         return contentValues;

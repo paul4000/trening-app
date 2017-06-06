@@ -4,26 +4,24 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TableRow;
-import android.widget.TextView;
 
-import com.example.assistant.workout_assistant.R;
-import com.example.assistant.workout_assistant.exercises.Training;
+import java.util.Calendar;
 
 public class PlanTrainingFragment extends Fragment {
 
-    private Training training;
+    private String trainingName;
+    private String trainingId;
+    private Calendar calendar;
 
     public PlanTrainingFragment() {
     }
 
-    public static PlanTrainingFragment newInstance(Training training) {
+    public static PlanTrainingFragment newInstance(String trainingName, String trainingId, Calendar calendar) {
         PlanTrainingFragment fragment = new PlanTrainingFragment();
         Bundle args = new Bundle();
-        args.putSerializable("TRAINING", training);
+        args.putString("TRAINING_NAME", trainingName);
+        args.putString("TRAINING_ID", trainingId);
+        args.putSerializable("CALENDAR", calendar);
         fragment.setArguments(args);
         return fragment;
     }
@@ -31,19 +29,10 @@ public class PlanTrainingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        training = (Training) getArguments().getSerializable("TRAINING");
-
+        trainingName = getArguments().getString("TRAINING_NAME");
+        trainingId = getArguments().getString("TRAINING_ID");
+        calendar = (Calendar) getArguments().getSerializable("CALENDAR");
     }
-
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-////        TextView textView = new TextView(getActivity());
-////        textView.setText(R.string.hello_blank_fragment);
-////        return textView;
-////    }
-
-
 
 
 }

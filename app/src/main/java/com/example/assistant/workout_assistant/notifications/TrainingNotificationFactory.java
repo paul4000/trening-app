@@ -6,50 +6,42 @@ import android.support.v4.app.NotificationCompat;
 
 import com.example.assistant.workout_assistant.R;
 
-import java.util.Date;
-
 
 public class TrainingNotificationFactory {
 
-  private static String TRAINING_NOW = String.valueOf(R.string.notification_now);
-  private static String TRAINING_BEFORE = String.valueOf(R.string.notification_before);
-
-
-  public static Notification getInstance(Context context, String trainingName, Date date, NotificationType type){
+  public static Notification getInstance(Context context, String trainingName, int type){
 
     Notification resultNotification = null;
 
     switch (type){
-        case BEFORE:
-          resultNotification =  getBeforeNotification(context, trainingName, date);
+        case 1:
+          resultNotification =  getBeforeNotification(context, trainingName);
           break;
-        case NOW:
-          resultNotification =  getNowNotification(context, trainingName, date);
+        case 2:
+          resultNotification =  getNowNotification(context, trainingName);
           break;
       }
       return resultNotification;
   }
 
-  private static Notification getBeforeNotification(Context context, String trainingName, Date date){
+  private static Notification getBeforeNotification(Context context, String trainingName){
     NotificationCompat.Builder nBuilder =
             new NotificationCompat.Builder(context)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(trainingName)
-                    .setContentText(TRAINING_BEFORE)
-                    .setWhen(date.getTime());
+                    .setContentText(context.getString(R.string.notification_before));
 
     return nBuilder.build();
 
   }
 
-  private static Notification getNowNotification(Context context, String trainingName, Date date){
+  private static Notification getNowNotification(Context context, String trainingName){
     NotificationCompat.Builder nBuilder =
             new NotificationCompat.Builder(context)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(trainingName)
-                    .setContentText(TRAINING_NOW)
-                    .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
-                    .setWhen(date.getTime());
+                    .setContentText(context.getString(R.string.notification_now))
+                    .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
 
     return nBuilder.build();
 

@@ -21,7 +21,12 @@
         <activity android:name=".WebTrainingsActivity" />
         <activity android:name=".TrainingDetailsActivity" />
         <activity android:name=".MyTrainingsActivity" />
-        <activity android:name=".PlanTrainingActivity"></activity>
+        <activity android:name=".PlanTrainingActivity" />
+
+        <receiver
+            android:name=".notifications.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>
