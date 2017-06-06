@@ -47,11 +47,11 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
         Bundle bundle = getIntent().getExtras();
         training = (Training) bundle.getSerializable("TRAINING");
 
-        displayDate = (TextView) findViewById(R.id.chosen_date);
-        displayTime = (TextView) findViewById(R.id.chosen_time);
+        displayDate = (TextView) findViewById(R.id.chosenDate);
+        displayTime = (TextView) findViewById(R.id.chosenTime);
 
-        saveDate = (Button) findViewById(R.id.change_date_button);
-        saveTime = (Button) findViewById(R.id.change_time_button);
+        saveDate = (Button) findViewById(R.id.changeDateButton);
+        saveTime = (Button) findViewById(R.id.changeTimeButton);
 
         fragmentManager = getFragmentManager();
         timePickerFragment = TimePickerFragment.newInstance(this);
@@ -108,8 +108,8 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
         if(shouldAddBeforeNotification) notificationsConfigurator
                 .setNotification(calendar, 1, beforeNotificationId, training.getName());
 
-        return plannedTrainingsDAO.insertPlannedTraining(training.get_id(), date, shouldAddBeforeNotification ? beforeNotificationId : -1,
-                nowNotificationId);
+        return plannedTrainingsDAO.insertPlannedTraining(training.get_id(), date, training.getName(),
+                shouldAddBeforeNotification ? beforeNotificationId : -1, nowNotificationId);
 
     }
 

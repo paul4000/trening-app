@@ -26,9 +26,9 @@
         <receiver
             android:name=".notifications.AlarmReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" />
 
-        </receiver>
+        <activity android:name=".PlannedTrainingsActivity"></activity>
     </application>
 
 </manifest>

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.assistant.workout_assistant.exercises.PlannedTraining;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class PlannedTrainingsDAO extends DAO {
     public static final String CREATE_QUERY = CREATE + TABLE_PLANNED_TRAININGS
             + "(" + KEY_ID + " INTEGER PRIMARY KEY, "
             + TRAINING_ID + " TEXT, "
+            + NAME + " TEXT, "
             + DATE + " TEXT, "
             + NOTIFICATION_BEFORE + " INTEGER, "
             + NOTIFICATION_NOW + " INTEGER, "
@@ -33,18 +36,19 @@ public class PlannedTrainingsDAO extends DAO {
         super(context);
     }
 
-    public boolean insertPlannedTraining(String trainingId, String date, int notIdBefore, int notIdNow){
+    public boolean insertPlannedTraining(String trainingId, String date, String name, int notIdBefore, int notIdNow){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        ContentValues values = fillValues(trainingId, date, notIdBefore, notIdNow);
+        ContentValues values = fillValues(trainingId, date, name, notIdBefore, notIdNow);
 
         return db.insert(TABLE_PLANNED_TRAININGS, null, values) != -1;
     }
 
-    private ContentValues fillValues(String trainingId, String date, int notIdBefore, int notIdNow) {
+    private ContentValues fillValues(String trainingId, String date, String name, int notIdBefore, int notIdNow) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TRAINING_ID, trainingId);
         contentValues.put(DATE, date);
+        contentValues.put(NAME, name);
         contentValues.put(NOTIFICATION_BEFORE, notIdBefore);
         contentValues.put(NOTIFICATION_NOW, notIdNow);
         return contentValues;
@@ -76,5 +80,33 @@ public class PlannedTrainingsDAO extends DAO {
         }
 
         return notificationsList;
+    }
+
+    public List<PlannedTraining> getPlannedTrainings(){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        List<PlannedTraining> plannedTrainings = new ArrayList<>();
+
+        String[] columns = { KEY_ID, TRAINING_ID, NAME, DATE, NOTIFICATION_BEFORE, NOTIFICATION_NOW };
+
+        Cursor cursor = db.query(TABLE_PLANNED_TRAININGS, columns, null, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            do {
+                plannedTrainings.add(new PlannedTraining(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3),
+                        cursor.getInt(4), cursor.getInt(5)));
+            }while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return plannedTrainings;
+    }
+
+    public boolean deletePlannedTraining(int id){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        int delete = db.delete(TABLE_PLANNED_TRAININGS, KEY_ID + " = ?", new String[]{ String.valueOf(id)});
+
+        return delete == 1;
     }
 }

@@ -75,7 +75,7 @@ public class DownloadPanelFragment extends Fragment {
 
     private void disableButtonIfCannotDownload(Button saveButton, View view) {
         saveButton.setEnabled(false);
-        TextView alreadySaved = (TextView) view.findViewById(R.id.already_saved);
+        TextView alreadySaved = (TextView) view.findViewById(R.id.alreadySaved);
         alreadySaved.setVisibility(View.VISIBLE);
 
     }

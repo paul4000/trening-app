@@ -5,7 +5,7 @@
     tools:context="com.example.assistant.workout_assistant.fragments.panels.DownloadPanelFragment">
 
     <TextView
-        android:id="@+id/already_saved"
+        android:id="@+id/alreadySaved"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
