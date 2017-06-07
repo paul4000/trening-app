@@ -1,6 +1,8 @@
 package com.example.assistant.workout_assistant.activities;
 
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.assistant.workout_assistant.R;
+import com.example.assistant.workout_assistant.authorization.Authorization;
 import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsDAO;
 import com.example.assistant.workout_assistant.exercises.Training;
 import com.example.assistant.workout_assistant.fragments.pickers.DatePickerFragment;
@@ -23,7 +26,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 
-public class PlanTrainingActivity extends FragmentActivity implements TimePickerFragment.TimePickerFragmentListener, DatePickerFragment.DatePickerFragmentListener{
+public class PlanTrainingActivity extends FragmentActivity implements TimePickerFragment.TimePickerFragmentListener, DatePickerFragment.DatePickerFragmentListener {
 
     private Training training;
 
@@ -40,10 +43,21 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
     NotificationsConfigurator notificationsConfigurator;
     PlannedTrainingsDAO plannedTrainingsDAO;
 
+
+    SharedPreferences sharedPreferences;
+    Authorization authorization;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_training);
+
+        sharedPreferences = getSharedPreferences("PREF", Context.MODE_PRIVATE);
+        authorization = new Authorization(sharedPreferences);
+
+        if (!authorization.isLogged()) {
+            authorization.askLogin(this);
+        }
 
         Bundle bundle = getIntent().getExtras();
         training = (Training) bundle.getSerializable("TRAINING");
@@ -84,7 +98,7 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(planTraining()){
+                if (planTraining()) {
                     Toast.makeText(PlanTrainingActivity.this, getString(R.string.planned_training), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(PlanTrainingActivity.this, getString(R.string.non_planned_training), Toast.LENGTH_SHORT).show();
@@ -95,7 +109,7 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
     }
 
     private boolean planTraining() {
-        if(calendar.before(Calendar.getInstance())) return false;
+        if (calendar.before(Calendar.getInstance())) return false;
 
         String date = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.US).format(calendar.getTime());
 
@@ -106,7 +120,7 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
         calendar.add(Calendar.MINUTE, -30);
         boolean shouldAddBeforeNotification = !calendar.before(Calendar.getInstance());
 
-        if(shouldAddBeforeNotification) notificationsConfigurator
+        if (shouldAddBeforeNotification) notificationsConfigurator
                 .setNotification(calendar, 1, beforeNotificationId, training.getName());
 
         return plannedTrainingsDAO.insertPlannedTraining(training.get_id(), date, training.getName(),
@@ -115,13 +129,13 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
     }
 
 
-    public void updateDisplayDate(){
+    public void updateDisplayDate() {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         String formattedDate = dateFormatter.format(calendar.getTime());
         displayDate.setText(formattedDate);
     }
 
-    public void updateDisplayTime(){
+    public void updateDisplayTime() {
         SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss", Locale.US);
         String formattedTime = timeFormatter.format(calendar.getTime());
         displayTime.setText(formattedTime);

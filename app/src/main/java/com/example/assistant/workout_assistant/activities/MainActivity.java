@@ -21,40 +21,38 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        authorization = new Authorization();
         sharedPreferences = getSharedPreferences("PREF", Context.MODE_PRIVATE);
+        authorization = new Authorization(sharedPreferences);
 
-        boolean isLogged = sharedPreferences.getBoolean("LOGGED", false);
-        String token = sharedPreferences.getString("JWT_TOKEN", null);
-
-
-        Button login = (Button) findViewById(R.id.login);
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-        login.setEnabled(!isLogged);
+        if (!authorization.isLogged()) {
+            authorization.askLogin(this);
+        }
 
 
         Button logout = (Button) findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                authorization.signOut(MainActivity.this, sharedPreferences);
+                authorization.signOut(MainActivity.this);
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
-        logout.setEnabled(isLogged);
 
-        Button toWebTrainings = (Button) findViewById(R.id.browseTrain);
-        toWebTrainings.setOnClickListener(new View.OnClickListener() {
+        Button toProfile = (Button) findViewById(R.id.profile);
+        toProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, WebTrainingsActivity.class);
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button toWebResources = (Button) findViewById(R.id.webResources);
+        toWebResources.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, WebResourcesActivity.class);
                 startActivity(intent);
             }
         });

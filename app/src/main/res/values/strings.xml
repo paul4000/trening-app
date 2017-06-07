@@ -43,4 +43,8 @@
     <string name="register">Zarejestruj</string>
     <string name="email">Adres email</string>
     <string name="logout">Wyloguj</string>
+    <string name="web_resource">zasoby serwera</string>
+    <string name="profile">Profil</string>
+    <string name="time">godzina</string>
+    <string name="date">data</string>
 </resources>

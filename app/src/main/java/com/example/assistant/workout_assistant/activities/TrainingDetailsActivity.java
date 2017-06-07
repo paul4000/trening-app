@@ -39,7 +39,7 @@ public class TrainingDetailsActivity extends AppCompatActivity {
 
         mode = bundle.getString("MODE");
 
-        if(mode.equals("WEB")){
+        if (mode.equals("WEB")) {
             ResponseTrainingsHeader trainingsHeader =
                     (ResponseTrainingsHeader) bundle.getSerializable("TRAINING_HEADER");
 
@@ -67,7 +67,7 @@ public class TrainingDetailsActivity extends AppCompatActivity {
 
     }
 
-    private void loadTraining(String trainingId){
+    private void loadTraining(String trainingId) {
         trainingService.loadTraining(new Callback<Training>() {
             @Override
             public void onResponse(Call<Training> call, Response<Training> response) {
