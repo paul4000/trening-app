@@ -25,6 +25,8 @@ public class PlannedTrainingsActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     Authorization authorization;
 
+    String userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,9 +39,10 @@ public class PlannedTrainingsActivity extends AppCompatActivity {
             authorization.askLogin(this);
         }
 
+        userId = authorization.getUser().getId();
 
         trainingsList = (ListView) findViewById(R.id.plannedTrainingList);
-        trainings = trainingsDAO.getPlannedTrainingsForUser();
+        trainings = trainingsDAO.getPlannedTrainingsForUser(userId);
 
         trainingsList.setAdapter(new PlannedTrainingsArrayAdapter(this, trainings, trainingsDAO));
 

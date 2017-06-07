@@ -14,18 +14,21 @@ import com.example.assistant.workout_assistant.adapters.TrainingsArrayAdapter;
 import com.example.assistant.workout_assistant.authorization.Authorization;
 import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
 import com.example.assistant.workout_assistant.bo.Training;
+import com.example.assistant.workout_assistant.database.tables.UserTrainingsDAO;
 
 import java.util.List;
 
 public class MyTrainingsActivity extends AppCompatActivity {
 
     List<Training> trainings;
-    TrainingsDAO trainingsDAO = new TrainingsDAO(this);
+    UserTrainingsDAO trainingsDAO = new UserTrainingsDAO(this);
     ListView trainingsList;
 
 
     SharedPreferences sharedPreferences;
     Authorization authorization;
+
+    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,8 @@ public class MyTrainingsActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("PREF", Context.MODE_PRIVATE);
         authorization = new Authorization(sharedPreferences);
+
+        userId = authorization.getUser().getId();
 
         if (!authorization.isLogged()) {
             authorization.askLogin(this);
@@ -60,7 +65,7 @@ public class MyTrainingsActivity extends AppCompatActivity {
     }
 
     public void loadTraining() {
-        trainings = trainingsDAO.getMyTrainings();
+        trainings = trainingsDAO.getUserTrainings(userId);
         trainingsList.setAdapter(new TrainingsArrayAdapter(this, trainings));
     }
 
