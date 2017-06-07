@@ -68,10 +68,10 @@ public class Authorization {
     }
 
     public void askLogin(Activity activity) {
-
         Intent intent = new Intent(activity, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         activity.startActivity(intent);
+        activity.finish();
     }
 }
