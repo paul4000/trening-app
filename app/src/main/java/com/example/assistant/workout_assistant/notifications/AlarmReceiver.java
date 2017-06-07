@@ -19,7 +19,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         String trainingName = bundle.getString("TRAINING_NAME");
         int notificationId = bundle.getInt("NOTI_ID");
 
-        Notification notification = TrainingNotificationFactory.getInstance(context, trainingName, type);
+        Notification notification = TrainingNotificationProducer.createNotification(context, trainingName, type);
 
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
