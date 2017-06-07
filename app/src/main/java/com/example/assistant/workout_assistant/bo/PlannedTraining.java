@@ -1,9 +1,9 @@
-package com.example.assistant.workout_assistant.exercises;
+package com.example.assistant.workout_assistant.bo;
 
 
 public class PlannedTraining {
 
-    private  String date;
+    private String date;
     private int id;
     private String trainingId;
     private String trainingName;

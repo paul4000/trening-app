@@ -6,7 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.assistant.workout_assistant.exercises.SeriesBean;
+import com.example.assistant.workout_assistant.bo.SeriesBean;
 
 import java.util.ArrayList;
 import java.util.List;

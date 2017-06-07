@@ -10,7 +10,7 @@ import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.adapters.PlannedTrainingsArrayAdapter;
 import com.example.assistant.workout_assistant.authorization.Authorization;
 import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsDAO;
-import com.example.assistant.workout_assistant.exercises.PlannedTraining;
+import com.example.assistant.workout_assistant.bo.PlannedTraining;
 
 import java.util.List;
 

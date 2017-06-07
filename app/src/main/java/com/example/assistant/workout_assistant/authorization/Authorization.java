@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
+import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 import com.example.assistant.workout_assistant.activities.LoginActivity;
 import com.example.assistant.workout_assistant.activities.MainActivity;
-import com.example.assistant.workout_assistant.exercises.Token;
+import com.example.assistant.workout_assistant.bo.Token;
+import com.example.assistant.workout_assistant.bo.User;
 
 import java.util.Date;
 
@@ -16,11 +18,12 @@ import retrofit2.Response;
 
 public class Authorization {
 
-    public SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
     public Authorization(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
+
 
     public String getToken() {
         return sharedPreferences.getString("JWT_TOKEN", null);
@@ -34,6 +37,10 @@ public class Authorization {
         return validateToken(getToken());
     }
 
+    public User getUser() {
+        return convertToUser(getToken());
+    }
+
     public boolean validateToken(String token) {
         if (token == null) {
             return false;
@@ -42,6 +49,7 @@ public class Authorization {
         JWT jwt = new JWT(token);
         Date expiresAt = jwt.getExpiresAt();
         Date date = new Date();
+
         return date.before(expiresAt);
     }
 
@@ -61,20 +69,35 @@ public class Authorization {
     }
 
     public void signIn(Activity activity, String token) {
+//        this.user = convertToUser(token);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("JWT_TOKEN", token);
         editor.putBoolean("LOGGED", true);
         editor.commit();
 
         Intent intent = new Intent(activity, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
-                | Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         activity.startActivity(intent);
     }
 
+
+    public User convertToUser(String token) {
+        if (token == null) {
+            return null;
+        }
+        JWT jwt = new JWT(token);
+        Claim username = jwt.getClaim("username");
+        Claim email = jwt.getClaim("email");
+        Claim privileges = jwt.getClaim("privileges");
+        Claim id = jwt.getClaim("_id");
+
+        return new User(id.asString(), username.asString(), email.asString(), privileges.asString());
+    }
+
     public void signOut(Activity activity) {
+//        user = null;
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.remove("JWT_TOKEN");
         editor.remove("LOGGED");
@@ -82,8 +105,7 @@ public class Authorization {
 
         activity.finishAffinity();
         Intent intent = new Intent(activity, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY
-                | Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         activity.startActivity(intent);
@@ -92,7 +114,6 @@ public class Authorization {
 
     public void askLogin(Activity activity) {
         Intent intent = new Intent(activity, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         activity.startActivity(intent);
         activity.finish();

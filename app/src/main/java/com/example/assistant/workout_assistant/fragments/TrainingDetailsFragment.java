@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.adapters.ExerciseBeanArrayAdapter;
-import com.example.assistant.workout_assistant.exercises.Training;
+import com.example.assistant.workout_assistant.bo.Training;
 
 
 public class TrainingDetailsFragment extends Fragment {

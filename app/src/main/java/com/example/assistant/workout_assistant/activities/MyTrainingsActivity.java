@@ -13,7 +13,7 @@ import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.adapters.TrainingsArrayAdapter;
 import com.example.assistant.workout_assistant.authorization.Authorization;
 import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
-import com.example.assistant.workout_assistant.exercises.Training;
+import com.example.assistant.workout_assistant.bo.Training;
 
 import java.util.List;
 

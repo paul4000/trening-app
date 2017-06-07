@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!authorization.isLogged()) {
             authorization.askLogin(this);
+            return;
         }
 
 

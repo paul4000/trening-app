@@ -1,4 +1,4 @@
-package com.example.assistant.workout_assistant.exercises;
+package com.example.assistant.workout_assistant.bo;
 
 import java.io.Serializable;
 

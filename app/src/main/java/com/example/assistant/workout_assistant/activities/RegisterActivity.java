@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.authorization.Authorization;
-import com.example.assistant.workout_assistant.exercises.Token;
+import com.example.assistant.workout_assistant.bo.Token;
 import com.example.assistant.workout_assistant.webService.UserService;
 
 import retrofit2.Call;
@@ -59,6 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void login() {
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 

@@ -1,6 +1,6 @@
 package com.example.assistant.workout_assistant.webService;
 
-import com.example.assistant.workout_assistant.exercises.Exercise;
+import com.example.assistant.workout_assistant.bo.Exercise;
 
 import java.util.List;
 

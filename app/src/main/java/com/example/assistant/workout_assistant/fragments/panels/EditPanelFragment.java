@@ -16,7 +16,7 @@ import com.example.assistant.workout_assistant.activities.PlanTrainingActivity;
 import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsDAO;
 import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
-import com.example.assistant.workout_assistant.exercises.Training;
+import com.example.assistant.workout_assistant.bo.Training;
 import com.example.assistant.workout_assistant.notifications.NotificationsConfigurator;
 
 import java.util.List;
