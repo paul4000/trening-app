@@ -30,7 +30,9 @@
 
         <activity android:name=".activities.PlannedTrainingsActivity" />
         <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.RegisterActivity"></activity>
+        <activity android:name=".activities.RegisterActivity" />
+        <activity android:name=".activities.WebResourcesActivity" />
+        <activity android:name=".activities.ProfileActivity"></activity>
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.auth0.android.jwt.JWT;
+import com.example.assistant.workout_assistant.activities.LoginActivity;
 import com.example.assistant.workout_assistant.activities.MainActivity;
 import com.example.assistant.workout_assistant.exercises.Token;
 
@@ -66,4 +67,11 @@ public class Authorization {
 
     }
 
+    public void askLogin(Activity activity) {
+
+        Intent intent = new Intent(activity, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        activity.startActivity(intent);
+    }
 }
