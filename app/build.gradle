@@ -39,4 +39,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.android.support:support-v4:25.3.0'
     testCompile 'junit:junit:4.12'
+
+    compile 'io.jsonwebtoken:jjwt:0.7.0'
+    compile 'com.auth0.android:jwtdecode:1.1.1'
 }

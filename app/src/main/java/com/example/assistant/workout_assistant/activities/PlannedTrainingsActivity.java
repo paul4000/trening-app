@@ -1,9 +1,10 @@
-package com.example.assistant.workout_assistant;
+package com.example.assistant.workout_assistant.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.adapters.PlannedTrainingsArrayAdapter;
 import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsDAO;
 import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;

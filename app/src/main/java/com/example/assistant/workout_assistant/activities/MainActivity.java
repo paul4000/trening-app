@@ -1,19 +1,35 @@
-package com.example.assistant.workout_assistant;
+package com.example.assistant.workout_assistant.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.assistant.workout_assistant.database.DBHelper;
+import com.example.assistant.workout_assistant.R;
+import com.example.assistant.workout_assistant.authorization.Authorization;
 
 public class MainActivity extends AppCompatActivity {
+
+    SharedPreferences sharedPreferences;
+    Authorization authorization;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        authorization = new Authorization();
+        sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+
+        if (!authorization.checkIfLogged(sharedPreferences.getString("JWT_TOKEN", null))) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            return;
+        }
+
 
         Button toWebTrainings = (Button) findViewById(R.id.browseTrain);
         toWebTrainings.setOnClickListener(new View.OnClickListener() {

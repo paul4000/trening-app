@@ -1,4 +1,4 @@
-package com.example.assistant.workout_assistant;
+package com.example.assistant.workout_assistant.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.adapters.TrainingsArrayAdapter;
 import com.example.assistant.workout_assistant.exercises.Training;
 import com.example.assistant.workout_assistant.webService.TrainingService;

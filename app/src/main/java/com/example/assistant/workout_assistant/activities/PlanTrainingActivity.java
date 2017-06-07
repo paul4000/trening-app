@@ -1,4 +1,4 @@
-package com.example.assistant.workout_assistant;
+package com.example.assistant.workout_assistant.activities;
 
 import android.app.FragmentManager;
 import android.support.v4.app.FragmentActivity;
@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsDAO;
 import com.example.assistant.workout_assistant.exercises.Training;
 import com.example.assistant.workout_assistant.fragments.pickers.DatePickerFragment;
