@@ -45,8 +45,8 @@ public class TrainingDetailsFragment extends Fragment {
         TextView trainingName = (TextView) view.findViewById(R.id.trainingName);
         trainingName.setText(training.getName());
 
-        TextView authorName = (TextView) view.findViewById(R.id.author);
-        authorName.setText(training.getAuthor());
+        TextView authorName = (TextView) view.findViewById(R.id.authorName);
+        authorName.setText(training.getAuthorName());
 
         ListView exercisesList = (ListView) view.findViewById(R.id.exerciseBeansList);
         exercisesList.setAdapter(new ExerciseBeanArrayAdapter(getActivity(), training.getExercises()));

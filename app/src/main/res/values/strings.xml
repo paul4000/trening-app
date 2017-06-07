@@ -10,6 +10,7 @@
     <string name="already_downloaded">Już pobrano!</string>
     <string name="success_download">Pobrano trening.</string>
     <string name="error_download">Wystąpił błąd podczas pobierania treningu.</string>
+    <string name="error_download_details">Nie można pobrać szczegółów treningu.</string>
 
     <string name="plan_training">Zaplanuj</string>
     <string name="delete_training">Usuń</string>
