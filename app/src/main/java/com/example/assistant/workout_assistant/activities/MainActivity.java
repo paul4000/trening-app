@@ -22,14 +22,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         authorization = new Authorization();
-        sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("PREF", Context.MODE_PRIVATE);
 
-//        if (!authorization.checkIfLogged(sharedPreferences.getString("JWT_TOKEN", null))) {
-//            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//            intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
-//            startActivity(intent);
-//            return;
-//        }
+        boolean isLogged = sharedPreferences.getBoolean("LOGGED", false);
+        String token = sharedPreferences.getString("JWT_TOKEN", null);
 
 
         Button login = (Button) findViewById(R.id.login);
@@ -40,6 +36,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        login.setEnabled(!isLogged);
+
+
+        Button logout = (Button) findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                authorization.signOut(MainActivity.this, sharedPreferences);
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        logout.setEnabled(isLogged);
 
         Button toWebTrainings = (Button) findViewById(R.id.browseTrain);
         toWebTrainings.setOnClickListener(new View.OnClickListener() {

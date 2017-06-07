@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -40,11 +39,11 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         authorization = new Authorization();
-        sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("PREF", Context.MODE_PRIVATE);
 
         String token = sharedPreferences.getString("JWT_TOKEN", null);
         if (authorization.checkIfLogged(token)) {
-            signIn(token);
+            authorization.signIn(RegisterActivity.this, sharedPreferences, token);
         }
 
         emailET = (EditText) findViewById(R.id.email);
@@ -68,20 +67,8 @@ public class RegisterActivity extends AppCompatActivity {
         userService.register(email, username, password, new Callback<Token>() {
             @Override
             public void onResponse(@NonNull Call<Token> call, @NonNull Response<Token> response) {
+                authorization.signInAttempt(RegisterActivity.this, sharedPreferences, response);
 
-                if (!response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Błąd NotSUccessful", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                String token = response.body().getToken();
-
-                Log.e("WA", token);
-                if (authorization.checkIfLogged(token)) {
-                    signIn(token);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Błąd logowania", Toast.LENGTH_LONG).show();
-                }
             }
 
             @Override
@@ -98,13 +85,4 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    public void signIn(String token) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("JWT_TOKEN", token);
-        editor.commit();
-
-        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
 }

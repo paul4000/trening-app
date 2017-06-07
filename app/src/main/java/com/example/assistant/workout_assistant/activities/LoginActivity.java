@@ -37,11 +37,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         authorization = new Authorization();
-        sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("PREF", Context.MODE_PRIVATE);
 
         String token = sharedPreferences.getString("JWT_TOKEN", null);
         if (authorization.checkIfLogged(token)) {
-            signIn(token);
+            authorization.signIn(LoginActivity.this, sharedPreferences, token);
         }
 
         usernameET = (EditText) findViewById(R.id.username);
@@ -63,18 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         userService.login(username, password, new Callback<Token>() {
             @Override
             public void onResponse(@NonNull Call<Token> call, @NonNull Response<Token> response) {
-
-                if (!response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Błąd NotSUccessful", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                String token = response.body().getToken();
-
-                if (authorization.checkIfLogged(token)) {
-                    signIn(token);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Błąd logowania", Toast.LENGTH_LONG).show();
-                }
+                authorization.signInAttempt(LoginActivity.this, sharedPreferences, response);
             }
 
             @Override
@@ -89,15 +78,5 @@ public class LoginActivity extends AppCompatActivity {
                 passwordET.setText("");
             }
         });
-    }
-
-    public void signIn(String token) {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("JWT_TOKEN", token);
-        editor.commit();
-
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
     }
 }

@@ -42,4 +42,5 @@
     <string name="registration">Rejestracja</string>
     <string name="register">Zarejestruj</string>
     <string name="email">Adres email</string>
+    <string name="logout">Wyloguj</string>
 </resources>
