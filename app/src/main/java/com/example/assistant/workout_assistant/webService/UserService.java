@@ -1,5 +1,7 @@
 package com.example.assistant.workout_assistant.webService;
 
+import com.example.assistant.workout_assistant.exercises.Token;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -9,17 +11,17 @@ import retrofit2.Callback;
 
 public class UserService extends WebService {
 
-    public void login(String username, String password, Callback<String> loginCallback) {
+    public void login(String username, String password, Callback<Token> loginCallback) {
         WorkoutPlatformAPI service = retrofit.create(WorkoutPlatformAPI.class);
 
-        Call<String> login = service.login(username, password);
+        Call<Token> login = service.login(username, password);
         login.enqueue(loginCallback);
     }
 
-    public void register(String email, String username, String password, Callback<String> registerCallback) {
+    public void register(String email, String username, String password, Callback<Token> registerCallback) {
         WorkoutPlatformAPI service = retrofit.create(WorkoutPlatformAPI.class);
 
-        Call<String> register = service.register(email, username, password);
+        Call<Token> register = service.register(email, username, password);
         register.enqueue(registerCallback);
     }
 }

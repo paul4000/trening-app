@@ -1,5 +1,7 @@
 package com.example.assistant.workout_assistant.authorization;
 
+import android.util.Log;
+
 import com.auth0.android.jwt.JWT;
 
 import java.util.Date;
@@ -14,6 +16,8 @@ public class Authorization {
 
         JWT jwt = new JWT(token);
 
+        Log.e("WA", jwt.toString());
+
         String issuer = jwt.getIssuer();
         System.out.println(issuer);
 
@@ -21,14 +25,16 @@ public class Authorization {
         System.out.println(issuer);
 
         List<String> audience = jwt.getAudience();
-        if (audience != null) {
-            audience.forEach(System.out::println);
-        }
+
 
         Date expiresAt = jwt.getExpiresAt();
-        System.out.println(expiresAt);
 
-        return false;
+        System.out.println(expiresAt);
+        Log.e("WA", expiresAt.toString());
+
+        Date date = new Date();
+
+        return date.before(expiresAt);
     }
 
 }

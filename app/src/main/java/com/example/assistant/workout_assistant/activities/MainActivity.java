@@ -24,12 +24,22 @@ public class MainActivity extends AppCompatActivity {
         authorization = new Authorization();
         sharedPreferences = getPreferences(Context.MODE_PRIVATE);
 
-        if (!authorization.checkIfLogged(sharedPreferences.getString("JWT_TOKEN", null))) {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-            return;
-        }
+//        if (!authorization.checkIfLogged(sharedPreferences.getString("JWT_TOKEN", null))) {
+//            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+//            intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+//            startActivity(intent);
+//            return;
+//        }
 
+
+        Button login = (Button) findViewById(R.id.login);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
 
         Button toWebTrainings = (Button) findViewById(R.id.browseTrain);
         toWebTrainings.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
 

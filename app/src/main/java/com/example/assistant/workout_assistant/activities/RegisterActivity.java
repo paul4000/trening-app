@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,22 +20,24 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     Authorization authorization;
+
+    EditText emailET;
     EditText usernameET;
     EditText passwordET;
 
-    Button signIn;
-    Button registration;
+    Button login;
+    Button register;
 
     private UserService userService = new UserService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
 
         authorization = new Authorization();
         sharedPreferences = getPreferences(Context.MODE_PRIVATE);
@@ -44,23 +47,25 @@ public class LoginActivity extends AppCompatActivity {
             signIn(token);
         }
 
+        emailET = (EditText) findViewById(R.id.email);
         usernameET = (EditText) findViewById(R.id.username);
         passwordET = (EditText) findViewById(R.id.password);
 
-        signIn = (Button) findViewById(R.id.sign_in);
-        registration = (Button) findViewById(R.id.registration);
+        login = (Button) findViewById(R.id.login);
+        register = (Button) findViewById(R.id.register);
 
-        signIn.setOnClickListener(v -> loginAttempt(usernameET.getText().toString(), passwordET.getText().toString()));
-        registration.setOnClickListener(v -> registration());
+        register.setOnClickListener(v -> registerAttempt(emailET.getText().toString(), usernameET.getText().toString(), passwordET.getText().toString()));
+        login.setOnClickListener(v -> login());
     }
 
-    public void registration() {
-        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+
+    public void login() {
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 
-    public void loginAttempt(String username, String password) {
-        userService.login(username, password, new Callback<Token>() {
+    public void registerAttempt(String email, String username, String password) {
+        userService.register(email, username, password, new Callback<Token>() {
             @Override
             public void onResponse(@NonNull Call<Token> call, @NonNull Response<Token> response) {
 
@@ -68,8 +73,10 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Błąd NotSUccessful", Toast.LENGTH_LONG).show();
                     return;
                 }
+
                 String token = response.body().getToken();
 
+                Log.e("WA", token);
                 if (authorization.checkIfLogged(token)) {
                     signIn(token);
                 } else {
@@ -96,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
         editor.putString("JWT_TOKEN", token);
         editor.commit();
 
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
