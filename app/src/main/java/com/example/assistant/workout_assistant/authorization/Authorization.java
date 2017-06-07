@@ -87,6 +87,7 @@ public class Authorization {
         if (token == null) {
             return null;
         }
+
         JWT jwt = new JWT(token);
         Claim username = jwt.getClaim("username");
         Claim email = jwt.getClaim("email");
