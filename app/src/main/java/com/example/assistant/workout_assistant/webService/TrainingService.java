@@ -14,11 +14,19 @@ import retrofit2.Callback;
 
 public class TrainingService extends WebService {
 
-    public void loadTrainings(Callback<List<Training>> trainingsCallback){
+    WorkoutPlatformAPI service = retrofit.create(WorkoutPlatformAPI.class);
 
-        WorkoutPlatformAPI service = retrofit.create(WorkoutPlatformAPI.class);
+    public void loadTrainings(Callback<List<ResponseTrainingsHeader>> trainingsCallback){
 
-        Call<List<Training>> trainings = service.getTrainings();
+        Call<List<ResponseTrainingsHeader>> trainings = service.getTrainings();
         trainings.enqueue(trainingsCallback);
     }
+
+    public void loadTraining(Callback<Training> trainingCallback, String trainingId){
+        Call<Training> training = service.getTraining(trainingId);
+
+        training.enqueue(trainingCallback);
+    }
+
+
 }

@@ -2,12 +2,19 @@ package com.example.assistant.workout_assistant.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.exercises.Training;
 import com.example.assistant.workout_assistant.fragments.panels.DownloadPanelFragment;
 import com.example.assistant.workout_assistant.fragments.panels.EditPanelFragment;
 import com.example.assistant.workout_assistant.fragments.TrainingDetailsFragment;
+import com.example.assistant.workout_assistant.webService.ResponseTrainingsHeader;
+import com.example.assistant.workout_assistant.webService.TrainingService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TrainingDetailsActivity extends AppCompatActivity {
 
@@ -16,6 +23,7 @@ public class TrainingDetailsActivity extends AppCompatActivity {
     private DownloadPanelFragment downloadPanelFragment;
     private EditPanelFragment editPanelFragment;
     private String mode;
+    private TrainingService trainingService = new TrainingService();
 
     @Override
     protected void onDestroy() {
@@ -29,24 +37,26 @@ public class TrainingDetailsActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        training = (Training) bundle.getSerializable("TRAINING");
         mode = bundle.getString("MODE");
 
-        detailsFragment = TrainingDetailsFragment.newInstance(training);
+        if(mode.equals("WEB")){
+            ResponseTrainingsHeader trainingsHeader =
+                    (ResponseTrainingsHeader) bundle.getSerializable("TRAINING_HEADER");
 
+            loadTraining(trainingsHeader.get_id());
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.detailsFragment, detailsFragment)
-                .commit();
-
-
-        if (mode.equals("WEB")) {
-
-            downloadPanelFragment = DownloadPanelFragment.newInstance(training);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.panelFragment, downloadPanelFragment)
-                    .commit();
         } else {
+            training = (Training) bundle.getSerializable("TRAINING");
+        }
+
+
+        if (mode.equals("EDIT")) {
+
+            detailsFragment = TrainingDetailsFragment.newInstance(training);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.detailsFragment, detailsFragment)
+                    .commit();
 
             editPanelFragment = EditPanelFragment.newInstance(training);
             getSupportFragmentManager().beginTransaction()
@@ -55,5 +65,31 @@ public class TrainingDetailsActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    private void loadTraining(String trainingId){
+        trainingService.loadTraining(new Callback<Training>() {
+            @Override
+            public void onResponse(Call<Training> call, Response<Training> response) {
+                training = response.body();
+
+                detailsFragment = TrainingDetailsFragment.newInstance(training);
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.detailsFragment, detailsFragment)
+                        .commit();
+
+                downloadPanelFragment = DownloadPanelFragment.newInstance(training);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.panelFragment, downloadPanelFragment)
+                        .commit();
+            }
+
+            @Override
+            public void onFailure(Call<Training> call, Throwable t) {
+                TextView textView = (TextView) findViewById(R.id.textViewError);
+                textView.setText(getString(R.string.error_download_details));
+            }
+        }, trainingId);
     }
 }

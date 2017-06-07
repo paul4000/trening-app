@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public abstract class WebService {
-    final String API_URL = "https://workout-assistant.herokuapp.com/";
+    final String API_URL = "https://workout-assistant.herokuapp.com/api/";
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(API_URL)
             .addConverterFactory(GsonConverterFactory.create())

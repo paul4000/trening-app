@@ -9,20 +9,27 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface WorkoutPlatformAPI {
 
-    @GET("/api/exercises")
+    @GET("/exercises")
     Call<List<Exercise>> getExercises();
 
-    @GET("/api/trainings")
-    Call<List<Training>> getTrainings();
+    @GET("trainings")
+    Call<List<ResponseTrainingsHeader>> getTrainings();
 
-    @POST("/api/users/login")
+    @GET("trainings/{trainingId}")
+    Call<Training> getTraining(
+            @Path("trainingId") String trainingId
+    );
+
+    @POST("/users/login")
     Call<String> login(@Field("username") String username,
                        @Field("password") String password);
 
-    @POST("/api/users/register")
+    @POST("/users/register")
     Call<String> register(@Field("email") String email,
                           @Field("username") String username,
                           @Field("password") String password);

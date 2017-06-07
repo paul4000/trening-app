@@ -116,7 +116,7 @@ public class TrainingsDAO extends DAO {
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_ID, training.get_id());
         contentValues.put(NAME, training.getName());
-        contentValues.put(AUTHOR, training.getAuthor());
+        contentValues.put(AUTHOR, training.getAuthorName());
         contentValues.put(UPDATE, training.getUpdated());
 
         return contentValues;

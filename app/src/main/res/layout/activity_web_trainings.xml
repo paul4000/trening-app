@@ -16,7 +16,7 @@
         tools:layout_editor_absoluteY="97dp" />
 
     <ListView
-        android:id="@+id/trainingsList"
+        android:id="@+id/headersList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true" >
