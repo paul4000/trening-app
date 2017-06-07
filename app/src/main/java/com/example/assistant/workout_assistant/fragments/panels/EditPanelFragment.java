@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.assistant.workout_assistant.PlanTrainingActivity;
+import com.example.assistant.workout_assistant.activities.PlanTrainingActivity;
 import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsDAO;
 import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;

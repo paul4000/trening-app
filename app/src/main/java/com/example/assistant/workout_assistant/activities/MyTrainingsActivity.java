@@ -1,4 +1,4 @@
-package com.example.assistant.workout_assistant;
+package com.example.assistant.workout_assistant.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.adapters.TrainingsArrayAdapter;
-import com.example.assistant.workout_assistant.database.DBHelper;
 import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
 import com.example.assistant.workout_assistant.exercises.Training;
 
