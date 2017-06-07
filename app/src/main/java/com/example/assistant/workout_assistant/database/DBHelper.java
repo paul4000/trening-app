@@ -13,11 +13,12 @@ import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsD
 import com.example.assistant.workout_assistant.database.tables.RequirementsDAO;
 import com.example.assistant.workout_assistant.database.tables.SeriesDAO;
 import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
+import com.example.assistant.workout_assistant.database.tables.UserTrainingsDAO;
 
 public class DBHelper extends SQLiteOpenHelper {
 
     //DATABASE VERSION
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 10;
     //DATABASE NAME
     private static final String DATABASE_NAME = "trainingsManager";
 
@@ -38,10 +39,12 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(ExeMusDAO.CREATE_QUERY);
         db.execSQL(ExeReqDAO.CREATE_QUERY);
         db.execSQL(PlannedTrainingsDAO.CREATE_QUERY);
+        db.execSQL(UserTrainingsDAO.CREATE_QUERY);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL(UserTrainingsDAO.DELETE_QUERY);
         db.execSQL(PlannedTrainingsDAO.DELETE_QUERY);
         db.execSQL(ExeMusDAO.DELETE_QUERY);
         db.execSQL(ExeReqDAO.DELETE_QUERY);

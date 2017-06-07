@@ -7,9 +7,7 @@ import android.widget.ListView;
 import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.adapters.PlannedTrainingsArrayAdapter;
 import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsDAO;
-import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
 import com.example.assistant.workout_assistant.exercises.PlannedTraining;
-import com.example.assistant.workout_assistant.exercises.Training;
 
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class PlannedTrainingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_planned_trainings);
 
         trainingsList = (ListView) findViewById(R.id.plannedTrainingList);
-        trainings = trainingsDAO.getPlannedTrainings();
+        trainings = trainingsDAO.getPlannedTrainingsForUser();
 
         trainingsList.setAdapter(new PlannedTrainingsArrayAdapter(this, trainings, trainingsDAO));
 
