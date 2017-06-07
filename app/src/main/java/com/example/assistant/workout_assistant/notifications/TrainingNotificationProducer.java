@@ -14,7 +14,6 @@ public class TrainingNotificationProducer {
 
   public static Notification createNotification(Context context, String trainingName, int type){
 
-      Notification resultNotification = null;
       NotificationsFactory notificationsFactory = null;
 
     switch (type) {
