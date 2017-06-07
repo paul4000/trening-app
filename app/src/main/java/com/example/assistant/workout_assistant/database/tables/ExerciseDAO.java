@@ -5,11 +5,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.ListView;
 
-import com.example.assistant.workout_assistant.exercises.Exercise;
+import com.example.assistant.workout_assistant.bo.Exercise;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ExerciseDAO extends DAO {

@@ -74,9 +74,9 @@ public class WebTrainingsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<ResponseTrainingsHeader>> call, Throwable t) {
-                TextView textView = (TextView) findViewById(R.id.textView);
-                textView.setVisibility(TextView.VISIBLE);
-                textView.setText(R.string.downloading_error);
+                TextView errorInfo = (TextView) findViewById(R.id.error_info);
+                errorInfo.setVisibility(TextView.VISIBLE);
+                errorInfo.setText(R.string.downloading_error);
                 Log.d("POBIERANIE", t.getMessage());
             }
         });

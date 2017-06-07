@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.authorization.Authorization;
 import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsDAO;
-import com.example.assistant.workout_assistant.exercises.Training;
+import com.example.assistant.workout_assistant.bo.Training;
 import com.example.assistant.workout_assistant.fragments.pickers.DatePickerFragment;
 import com.example.assistant.workout_assistant.fragments.pickers.TimePickerFragment;
 import com.example.assistant.workout_assistant.notifications.NotificationIdsFactory;

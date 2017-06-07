@@ -1,6 +1,6 @@
 package com.example.assistant.workout_assistant.webService;
 
-import com.example.assistant.workout_assistant.exercises.Training;
+import com.example.assistant.workout_assistant.bo.Training;
 
 import java.io.Serializable;
 

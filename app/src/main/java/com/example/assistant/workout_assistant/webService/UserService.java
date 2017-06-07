@@ -1,6 +1,6 @@
 package com.example.assistant.workout_assistant.webService;
 
-import com.example.assistant.workout_assistant.exercises.Token;
+import com.example.assistant.workout_assistant.bo.Token;
 
 import retrofit2.Call;
 import retrofit2.Callback;

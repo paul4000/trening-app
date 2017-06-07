@@ -5,9 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.assistant.workout_assistant.exercises.Exercise;
-import com.example.assistant.workout_assistant.exercises.SeriesBean;
-import com.example.assistant.workout_assistant.exercises.Training;
+import com.example.assistant.workout_assistant.bo.Exercise;
+import com.example.assistant.workout_assistant.bo.SeriesBean;
+import com.example.assistant.workout_assistant.bo.Training;
 
 import java.util.ArrayList;
 import java.util.List;

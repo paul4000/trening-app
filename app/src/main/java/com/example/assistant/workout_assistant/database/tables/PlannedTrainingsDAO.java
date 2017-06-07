@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.assistant.workout_assistant.exercises.PlannedTraining;
+import com.example.assistant.workout_assistant.bo.PlannedTraining;
 
 import java.util.ArrayList;
 import java.util.List;

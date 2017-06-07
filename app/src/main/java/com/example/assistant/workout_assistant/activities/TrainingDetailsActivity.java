@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.assistant.workout_assistant.R;
-import com.example.assistant.workout_assistant.exercises.Training;
+import com.example.assistant.workout_assistant.bo.Training;
 import com.example.assistant.workout_assistant.fragments.panels.DownloadPanelFragment;
 import com.example.assistant.workout_assistant.fragments.panels.EditPanelFragment;
 import com.example.assistant.workout_assistant.fragments.TrainingDetailsFragment;

@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.assistant.workout_assistant.R;
-import com.example.assistant.workout_assistant.exercises.Training;
+import com.example.assistant.workout_assistant.bo.Training;
 
 import java.util.List;
 

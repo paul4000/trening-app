@@ -1,4 +1,4 @@
-package com.example.assistant.workout_assistant.exercises;
+package com.example.assistant.workout_assistant.bo;
 
 /**
  * Created by grybos on 07.06.17.
