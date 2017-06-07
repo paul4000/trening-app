@@ -21,46 +21,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        authorization = new Authorization();
         sharedPreferences = getSharedPreferences("PREF", Context.MODE_PRIVATE);
+        authorization = new Authorization(sharedPreferences);
 
-        boolean isLogged = sharedPreferences.getBoolean("LOGGED", false);
-        String token = sharedPreferences.getString("JWT_TOKEN", null);
-
-        if (!isLogged) {
+        if (!authorization.isLogged()) {
             authorization.askLogin(this);
         }
-
-//        Button login = (Button) findViewById(R.id.login);
-//        login.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//        login.setEnabled(!isLogged);
 
 
         Button logout = (Button) findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                authorization.signOut(MainActivity.this, sharedPreferences);
+                authorization.signOut(MainActivity.this);
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
-        logout.setEnabled(isLogged);
-
-//        Button toWebTrainings = (Button) findViewById(R.id.browseTrain);
-//        toWebTrainings.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, WebTrainingsActivity.class);
-//                startActivity(intent);
-//            }
-//        });
 
         Button toProfile = (Button) findViewById(R.id.profile);
         toProfile.setOnClickListener(new View.OnClickListener() {

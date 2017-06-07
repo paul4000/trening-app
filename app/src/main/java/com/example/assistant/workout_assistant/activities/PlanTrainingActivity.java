@@ -52,13 +52,10 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_training);
 
-        authorization = new Authorization();
         sharedPreferences = getSharedPreferences("PREF", Context.MODE_PRIVATE);
+        authorization = new Authorization(sharedPreferences);
 
-        boolean isLogged = sharedPreferences.getBoolean("LOGGED", false);
-        String token = sharedPreferences.getString("JWT_TOKEN", null);
-
-        if (!isLogged) {
+        if (!authorization.isLogged()) {
             authorization.askLogin(this);
         }
 

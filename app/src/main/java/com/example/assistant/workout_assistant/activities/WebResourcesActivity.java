@@ -21,11 +21,10 @@ public class WebResourcesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_resources);
 
-        authorization = new Authorization();
         sharedPreferences = getSharedPreferences("PREF", Context.MODE_PRIVATE);
-        boolean isLogged = sharedPreferences.getBoolean("LOGGED", false);
+        authorization = new Authorization(sharedPreferences);
 
-        if (!isLogged) {
+        if (!authorization.isLogged()) {
             authorization.askLogin(this);
         }
 

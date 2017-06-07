@@ -38,12 +38,11 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        authorization = new Authorization();
         sharedPreferences = getSharedPreferences("PREF", Context.MODE_PRIVATE);
+        authorization = new Authorization(sharedPreferences);
 
-        String token = sharedPreferences.getString("JWT_TOKEN", null);
-        if (authorization.checkIfLogged(token)) {
-            authorization.signIn(RegisterActivity.this, sharedPreferences, token);
+        if (authorization.isTokenActual()) {
+            authorization.signIn(RegisterActivity.this, authorization.getToken());
         }
 
         emailET = (EditText) findViewById(R.id.email);
@@ -77,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
 //                textView.setVisibility(TextView.VISIBLE);
 //                textView.setText(R.string.downloading_error);
 
-                Toast.makeText(getApplicationContext(), "Nie można zalogować", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Nie można zarejestrować", Toast.LENGTH_LONG).show();
 
                 usernameET.setText("");
                 passwordET.setText("");

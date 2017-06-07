@@ -36,12 +36,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        authorization = new Authorization();
         sharedPreferences = getSharedPreferences("PREF", Context.MODE_PRIVATE);
+        authorization = new Authorization(sharedPreferences);
 
-        String token = sharedPreferences.getString("JWT_TOKEN", null);
-        if (authorization.checkIfLogged(token)) {
-            authorization.signIn(LoginActivity.this, sharedPreferences, token);
+//        String token = sharedPreferences.getString("JWT_TOKEN", null);
+        if (authorization.isTokenActual()) {
+            authorization.signIn(LoginActivity.this, authorization.getToken());
         }
 
         usernameET = (EditText) findViewById(R.id.username);
