@@ -107,11 +107,23 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/placeForForecast"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"/>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="0"
                 android:gravity="center">
+
+
+                <Button
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/checkWeatherButton"/>
 
 
                 <Button
