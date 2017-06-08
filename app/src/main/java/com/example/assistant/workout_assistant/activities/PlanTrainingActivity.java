@@ -14,6 +14,7 @@ import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.authorization.Authorization;
 import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsDAO;
 import com.example.assistant.workout_assistant.bo.Training;
+import com.example.assistant.workout_assistant.fragments.ForecastFragment;
 import com.example.assistant.workout_assistant.fragments.pickers.DatePickerFragment;
 import com.example.assistant.workout_assistant.fragments.pickers.TimePickerFragment;
 import com.example.assistant.workout_assistant.notifications.NotificationIdsFactory;
@@ -113,19 +114,24 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
             }
         });
 
-        saveButton = (Button) findViewById(R.id.checkWeatherButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        checkWeather = (Button) findViewById(R.id.checkWeatherButton);
+        checkWeather.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                fragmentManager.beginTransaction()
+                        .replace(R.id.placeForForecast, ForecastFragment.newInstance(calendar))
+                        .commit();
+
                 Toast.makeText(PlanTrainingActivity.this, "Sprawdzam pogode!", Toast.LENGTH_LONG).show();
             }
         });
 
-        if (training.isOutdoor()) {
-            saveButton.setVisibility(View.VISIBLE);
-        } else {
-            saveButton.setVisibility(View.GONE);
-        }
+//        if (training.isOutdoor()) {
+//            checkWeather.setVisibility(View.VISIBLE);
+//        } else {
+//            checkWeather.setVisibility(View.GONE);
+//        }
 
     }
 

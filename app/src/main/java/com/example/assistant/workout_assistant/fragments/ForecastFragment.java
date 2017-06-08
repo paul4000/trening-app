@@ -6,11 +6,10 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +18,17 @@ import android.widget.Toast;
 
 import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.activities.PlanTrainingActivity;
+import com.example.assistant.workout_assistant.webService.forecast.Forecast;
+import com.example.assistant.workout_assistant.webService.forecast.ForecastService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ForecastFragment extends Fragment implements LocationListener{
 
@@ -28,6 +36,7 @@ public class ForecastFragment extends Fragment implements LocationListener{
     LocationManager locationManager;
     String locationProvider;
     Location location;
+    ForecastService forecastService;
 
     public ForecastFragment() {
     }
@@ -48,12 +57,6 @@ public class ForecastFragment extends Fragment implements LocationListener{
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         Criteria criteria = new Criteria();
-        locationProvider = locationManager.getBestProvider(criteria, false);
-
-        if(!locationManager.isProviderEnabled(locationProvider)){
-            Toast.makeText(getActivity(), getString(R.string.enable_gps), Toast.LENGTH_LONG).show();
-            return;
-        }
 
         if (ActivityCompat.checkSelfPermission(getActivity(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -64,9 +67,18 @@ public class ForecastFragment extends Fragment implements LocationListener{
                             android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
 
+        locationProvider = locationManager.getBestProvider(criteria, false);
+        if(locationProvider == null) return;
+
+        if(!locationManager.isProviderEnabled(locationProvider)){
+            Toast.makeText(getActivity(), getString(R.string.enable_gps), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        locationManager.requestLocationUpdates(locationProvider, 400, 1, this);
         location = locationManager.getLastKnownLocation(locationProvider);
 
-
+        forecastService = new ForecastService();
 
     }
 
@@ -76,17 +88,69 @@ public class ForecastFragment extends Fragment implements LocationListener{
 
         View view = inflater.inflate(R.layout.fragment_forecast, container, false);
 
-        TextView longitude = (TextView) view.findViewById(R.id.longTextView);
-        TextView latitude = (TextView) view.findViewById(R.id.latitudeTextView);
-
         if(location != null){
-            longitude.setText(String.valueOf(location.getLongitude()));
-            latitude.setText(String.valueOf(location.getLatitude()));
+
+            Log.d("LONG", String.valueOf(location.getLongitude()));
+            Log.d("LATITUDE", String.valueOf(location.getLatitude()));
+
+            getForecast(view, (float)location.getLatitude(), (float) location.getLongitude());
+
+        }
+        return view;
+    }
+
+    public void getForecast(View view, float lat, float lon){
+        forecastService.loadForecastData(new Callback<Forecast>() {
+            @Override
+            public void onResponse(Call<Forecast> call, Response<Forecast> response) {
+
+                Forecast forecast = response.body();
+
+                Forecast.DetailsBean specificWeather = getWeather(forecast);
+
+                TextView setTemperature = (TextView) view.findViewById(R.id.setTemperature);
+                setTemperature.setText(String.valueOf(specificWeather.getMain().getTemp() - 273.15));
+
+                TextView setRaining = (TextView) view.findViewById(R.id.setRaining);
+                boolean rain = specificWeather.getRain() != null;
+
+                setRaining.setText(rain ? R.string.yes : R.string.no);
+                Log.d("NIC", "trol");
+            }
+
+            @Override
+            public void onFailure(Call<Forecast> call, Throwable t) {
+                Toast.makeText(getActivity(), R.string.weather_error, Toast.LENGTH_LONG).show();
+                Log.d("FORECAST_FAILURE", t.getMessage());
+            }
+        }, lat, lon);
+    }
+
+    private Forecast.DetailsBean getWeather(Forecast forecast) {
+
+        Forecast.DetailsBean resultDetailBean = forecast.getList().get(0);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+
+        for(int i=1; i < forecast.getList().size(); ++i){
+
+            Forecast.DetailsBean detail = forecast.getList().get(i);
+
+            String date = detail.getDt_txt();
+            Calendar c = Calendar.getInstance();
+            try{
+                c.setTime(dateFormat.parse(date));
+            }catch(ParseException e){
+                throw new IllegalArgumentException();
+            }
+
+            if(c.after(calendar)){
+                resultDetailBean = detail;
+            } else break;
+
         }
 
-
-        return view;
-
+        return resultDetailBean;
     }
 
     @Override
@@ -101,12 +165,9 @@ public class ForecastFragment extends Fragment implements LocationListener{
 
     @Override
     public void onLocationChanged(Location location) {
-
     }
-
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-
     }
 
     @Override
