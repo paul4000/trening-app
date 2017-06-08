@@ -50,4 +50,7 @@
 
     <string name="enable_gps">Włącz usługę GPS!</string>
     <string name="check_weather_button">Sprawdź pogodę</string>
+
+    <string name="start">rozpocznij</string>
+    <string name="continue_actual_training">Kontynuuj aktualny trening</string>
 </resources>

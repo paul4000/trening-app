@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -64,8 +65,19 @@ public class LoginActivity extends AppCompatActivity {
         signIn = (Button) findViewById(R.id.sign_in);
         registration = (Button) findViewById(R.id.registration);
 
-        signIn.setOnClickListener(v -> loginAttempt(usernameET.getText().toString(), passwordET.getText().toString()));
-        registration.setOnClickListener(v -> registration());
+//        signIn.setOnClickListener(v -> loginAttempt(usernameET.getText().toString(), passwordET.getText().toString()));
+        signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginAttempt(usernameET.getText().toString(), passwordET.getText().toString());
+            }
+        });
+        registration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registration();
+            }
+        });
 
     }
 
@@ -81,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<Token> call, @NonNull Response<Token> response) {
                 authorization.signInAttempt(LoginActivity.this, sharedPreferences, response);
 
-                if(authorization.getUser() != null){
+                if (authorization.getUser() != null) {
                     String userId = authorization.getUser().getId();
                     resumeNotifications(userId);
                 }
@@ -107,18 +119,18 @@ public class LoginActivity extends AppCompatActivity {
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.US);
 
 
-        for(PlannedTraining plannedTraining: plannedTrainings){
+        for (PlannedTraining plannedTraining : plannedTrainings) {
             Calendar calendar = Calendar.getInstance();
-            try{
+            try {
                 calendar.setTime(df.parse(plannedTraining.getDate()));
-            }catch(ParseException e){
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
 
             notificationsConfigurator
                     .setNotification(calendar, 2, plannedTraining.getNowNotificationId(), plannedTraining.getTrainingName());
 
-            if(plannedTraining.getBeforeNotificationId() > 0){
+            if (plannedTraining.getBeforeNotificationId() > 0) {
                 calendar.add(Calendar.MINUTE, -30);
                 notificationsConfigurator
                         .setNotification(calendar, 1, plannedTraining.getBeforeNotificationId(), plannedTraining.getTrainingName());

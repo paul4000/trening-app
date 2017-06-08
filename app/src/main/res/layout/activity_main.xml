@@ -37,10 +37,8 @@
                 android:id="@+id/logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/logout" />
 
 
@@ -48,10 +46,8 @@
                 android:id="@+id/profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/profile" />
 
 
@@ -59,31 +55,35 @@
                 android:id="@+id/webResources"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/web_resource" />
 
             <Button
                 android:id="@+id/browseMyTrain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/browse_yours_trainings" />
 
             <Button
                 android:id="@+id/browsePlannedTrain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
-                android:layout_marginTop="10dp"
                 android:text="@string/browse_planned_trainings" />
+
+
+
+            <Button
+                android:id="@+id/continue_actual_training"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:text="@string/continue_actual_training" />
 
         </LinearLayout>
 
