@@ -14,7 +14,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
 
@@ -27,26 +27,33 @@
             <ListView
                 android:id="@+id/training_exercises"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="400dp">
 
             </ListView>
 
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="INFO O KONCU!" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="ZANIECHAJ"/>
+                android:orientation="vertical">
 
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Zakoncz"/>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/abandon"
+                    android:padding="10dp"
+                    android:text="ZANIECHAJ" />
+
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:id="@+id/finish"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Zakoncz" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -3,10 +3,12 @@ package com.example.assistant.workout_assistant.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -51,13 +53,21 @@ public class TrainigExercisesArrayAdapter extends ArrayAdapter {
 
         exerciseSeries = (LinearLayout) rowView.findViewById(R.id.exercise_series);
 
+        exerciseSeries.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("WA", "" + v.getId());
+            }
+        });
+
         for (int i = 0; i < series.size(); ++i) {
             SeriesBean seriesBean = series.get(i);
+//            new Inflater().inflate(R.layout.list_exercise_serie, parent, false);
             View serie = inflater.inflate(R.layout.list_exercise_serie, parent, false);
 
 
             TextView seriesNumber = (TextView) serie.findViewById(R.id.series_number);
-            seriesNumber.setText("" + i + 1);
+            seriesNumber.setText("" + (i + 1));
 
             TextView seriesLoad = (TextView) serie.findViewById(R.id.series_load);
             seriesLoad.setText("" + seriesBean.getLoad());
@@ -69,10 +79,34 @@ public class TrainigExercisesArrayAdapter extends ArrayAdapter {
             seriesTime.setText("" + seriesBean.getTime());
 
 
+            CheckBox isDone = (CheckBox) serie.findViewById(R.id.is_done);
+            serie.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CheckBox isDone = (CheckBox) v.findViewById(R.id.is_done);
+                    isDone.toggle();
+
+                    Log.e("WA", "" + isDone.isChecked());
+
+                }
+            });
+//            serie.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//                    Log.e("WA", "Pressed");
+//                    buttonView.isChecked();
+//                    Log.e("WA", "" + buttonView.getId());
+//                    Log.e("WA", "" + isDone.getId());
+//                    Log.e("WA", isChecked ? "true" : "false");
+//                    Log.e(buttonView.find);
+//
+//                    TextView number = (TextView)
+//                }
+//            });
+
             exerciseSeries.addView(serie);
         }
-
-//                exerciseSeries.setAdapter(new ExerciseSeriesArrayAdapter(getContext(), series));
 
 
         return rowView;
