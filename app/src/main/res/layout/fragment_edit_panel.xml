@@ -1,23 +1,28 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context="com.example.assistant.workout_assistant.fragments.panels.EditPanelFragment">
 
     <Button
-        android:id="@+id/deleteTrainingButton"
+        android:id="@+id/delete_training"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/planningButton"
         android:text="@string/delete_training" />
 
     <Button
-        android:id="@+id/planningButton"
+        android:id="@+id/plan_training"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="@string/plan_training"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"/>
+        android:text="@string/plan_training" />
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/start_training"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/start" />
+
+</LinearLayout>
