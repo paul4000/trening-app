@@ -48,6 +48,8 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
     Authorization authorization;
 
     String userId;
+    Button saveButton;
+    Button checkWeather;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +101,7 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
             }
         });
 
-        Button saveButton = (Button) findViewById(R.id.save);
+        saveButton = (Button) findViewById(R.id.save);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +112,20 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
                 }
             }
         });
+
+        saveButton = (Button) findViewById(R.id.checkWeatherButton);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PlanTrainingActivity.this, "Sprawdzam pogode!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        if (training.isOutdoor()) {
+            saveButton.setVisibility(View.VISIBLE);
+        } else {
+            saveButton.setVisibility(View.GONE);
+        }
 
     }
 

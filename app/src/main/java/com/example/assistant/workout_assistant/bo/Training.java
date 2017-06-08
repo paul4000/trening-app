@@ -1,5 +1,7 @@
 package com.example.assistant.workout_assistant.bo;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -196,18 +198,18 @@ public class Training implements Serializable {
 
     }
 
-    public Iter getIterator() {
-        return new Iter();
+    public SeriesIter getSeriesIterator() {
+        return new SeriesIter();
     }
 
-    public class Iter implements Iterator {
+    public class SeriesIter implements Iterator {
         int exerciseCursor;
         int seriesCursor;
         int lastExercise = -1;
         int lastSeriesInExercise = -1;
 
 
-        Iter() {
+        SeriesIter() {
             exerciseCursor = 0;
             seriesCursor = 0;
         }
@@ -259,5 +261,15 @@ public class Training implements Serializable {
         }
     }
 
+
+    public boolean isOutdoor() {
+        for (ExercisesBean exercisesBean : exercises) {
+            Log.e("WA", exercisesBean.exercise.getPlace());
+            if (exercisesBean.exercise.getPlace().equals("outdoor")) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
