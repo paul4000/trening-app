@@ -3,20 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
     android:orientation="vertical"
+    android:padding="10dp"
     tools:context="com.example.assistant.workout_assistant.activities.TrainingDetailsActivity">
 
-    <LinearLayout android:id="@+id/detailsFragment"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"/>
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
 
-    <LinearLayout android:id="@+id/panelFragment"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"/>
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical">-->
 
+            <ScrollView
+                android:id="@+id/detailsFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
+
+            <LinearLayout
+                android:id="@+id/panelFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
+
+        <!--</LinearLayout>-->
+    <!--</ScrollView>-->
 
 
 </LinearLayout>

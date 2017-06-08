@@ -3,14 +3,13 @@ package com.example.assistant.workout_assistant.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.authorization.Authorization;
-import com.example.assistant.workout_assistant.bo.PlannedTraining;
 import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsDAO;
 import com.example.assistant.workout_assistant.notifications.NotificationsConfigurator;
 
@@ -24,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     String userId;
 
     PlannedTrainingsDAO plannedTrainingsDAO;
+
+    Button continueActualTraining;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +90,32 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        continueActualTraining = (Button) findViewById(R.id.continue_actual_training);
+        continueActualTraining.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, WorkoutActivity.class);
+                startActivity(intent);
+            }
+        });
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String actualTrainingId = sharedPreferences.getString("ACTUAL_TRAINING_ID", null);
+        if (actualTrainingId != null) {
+            continueActualTraining.setVisibility(View.VISIBLE);
+        } else {
+            continueActualTraining.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
@@ -102,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
         List<Integer> notificationsList = plannedTrainingsDAO.getAllNotificationsForUser(userId);
 
-        for(int notification: notificationsList){
+        for (int notification : notificationsList) {
             notificationsConfigurator.cancelNotification(this, notification);
         }
 

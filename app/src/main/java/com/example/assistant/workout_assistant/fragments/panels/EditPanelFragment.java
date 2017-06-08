@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,8 @@ import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.activities.PlanTrainingActivity;
 import com.example.assistant.workout_assistant.activities.WorkoutActivity;
 import com.example.assistant.workout_assistant.bo.Training;
-import com.example.assistant.workout_assistant.database.tables.UserTrainingsDAO;
 import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsDAO;
-import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
+import com.example.assistant.workout_assistant.database.tables.UserTrainingsDAO;
 import com.example.assistant.workout_assistant.notifications.NotificationsConfigurator;
 
 import java.util.List;
@@ -34,6 +34,11 @@ public class EditPanelFragment extends Fragment {
     NotificationsConfigurator notificationsConfigurator;
     PlannedTrainingsDAO plannedTrainingsDAO;
 
+
+    Button deleteButton;
+    Button planButton;
+    Button startButton;
+    Button continueActualTraining;
 
     public EditPanelFragment() {
 
@@ -96,7 +101,7 @@ public class EditPanelFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_panel, container, false);
 
-        final Button deleteButton = (Button) view.findViewById(R.id.delete_training);
+        deleteButton = (Button) view.findViewById(R.id.delete_training);
 
         deleteButton.setOnClickListener(v -> {
 
@@ -107,7 +112,7 @@ public class EditPanelFragment extends Fragment {
                     .show();
         });
 
-        final Button planButton = (Button) view.findViewById(R.id.plan_training);
+        planButton = (Button) view.findViewById(R.id.plan_training);
 
         planButton.setOnClickListener(v -> {
             Intent intent = new Intent(context, PlanTrainingActivity.class);
@@ -116,7 +121,7 @@ public class EditPanelFragment extends Fragment {
         });
 
 
-        final Button startButton = (Button) view.findViewById(R.id.start_training);
+        startButton = (Button) view.findViewById(R.id.start_training);
 
         startButton.setOnClickListener(v -> {
             Intent intent = new Intent(context, WorkoutActivity.class);
@@ -125,7 +130,32 @@ public class EditPanelFragment extends Fragment {
             startActivity(intent);
         });
 
+
+        continueActualTraining = (Button) view.findViewById(R.id.continue_actual_training);
+        continueActualTraining.setOnClickListener(v -> {
+            Intent intent = new Intent(context, WorkoutActivity.class);
+            startActivity(intent);
+        });
         return view;
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        String actualTrainingId = context.getSharedPreferences("PREF", Context.MODE_PRIVATE).getString("ACTUAL_TRAINING_ID", null);
+        if (actualTrainingId != null) {
+            continueActualTraining.setVisibility(View.VISIBLE);
+            startButton.setEnabled(false);
+        } else {
+            continueActualTraining.setVisibility(View.GONE);
+            startButton.setEnabled(true);
+        }
     }
 
     @Override

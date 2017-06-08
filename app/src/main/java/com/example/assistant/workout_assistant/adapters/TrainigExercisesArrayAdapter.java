@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,12 +54,6 @@ public class TrainigExercisesArrayAdapter extends ArrayAdapter {
         List<SeriesBean> series = exercisesBean.getSeries();
 
         exerciseSeries = (LinearLayout) rowView.findViewById(R.id.exercise_series);
-        exerciseSeries.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("WA", "" + v.getId());
-            }
-        });
 
 
         for (int i = 0; i < series.size(); ++i) {
@@ -87,24 +80,10 @@ public class TrainigExercisesArrayAdapter extends ArrayAdapter {
             isDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Log.e("WA", "" + isChecked);
-                    Log.e("WA", position + "_" + seriesPosition);
-
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean("ACTUAL_TRAINING_CHECK_" + position + "_" + seriesPosition, isChecked);
                     editor.commit();
                 }
-            });
-            serie.setOnClickListener(v -> {
-//                CheckBox isDone1 = (CheckBox) v.findViewById(R.id.is_done);
-//                isDone1.toggle();
-
-//                Log.e("WA", "" + isDone1.isChecked());
-//                Log.e("WA", position + "_" + seriesPosition);
-//////                    boolean checked = sharedPreferences.getBoolean("ACTUAL_TRAINING_CHECK_" + position + "_" + seriesPosition, false);
-//                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                editor.putBoolean("ACTUAL_TRAINING_CHECK_" + position + "_" + seriesPosition, isDone1.isChecked());
-//                editor.commit();
             });
 
 

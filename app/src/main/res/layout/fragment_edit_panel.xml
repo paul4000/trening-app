@@ -25,4 +25,10 @@
         android:layout_height="wrap_content"
         android:text="@string/start" />
 
+    <Button
+        android:id="@+id/continue_actual_training"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/continue_actual_training" />
+
 </LinearLayout>
