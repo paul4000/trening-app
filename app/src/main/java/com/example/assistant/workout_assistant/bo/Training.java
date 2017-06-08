@@ -196,7 +196,6 @@ public class Training implements Serializable {
 
     }
 
-
     public Iter getIterator() {
         return new Iter();
     }

@@ -61,9 +61,8 @@ public class WorkoutActivity extends AppCompatActivity {
         for (Training.Iter iter = training.getIterator(); iter.hasNext(); ) {
             SeriesBean seriesBean = iter.next();
 
-            Log.e("WA", "" + seriesBean.get_id());
-            Log.e("WA", "" + seriesBean.getQuantity());
             Log.e("WA", "" + seriesBean.getLoad());
+            Log.e("WA", "" + seriesBean.getQuantity());
             Log.e("WA", "" + seriesBean.getTime());
 
         }
