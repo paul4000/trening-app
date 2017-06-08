@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.assistant.workout_assistant.R;
+import com.example.assistant.workout_assistant.database.tables.UserTrainingsDAO;
 import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
 import com.example.assistant.workout_assistant.bo.Training;
 
@@ -17,15 +18,17 @@ public class DownloadPanelFragment extends Fragment {
 
 
     private Training training;
-    TrainingsDAO trainingsDAO;
+    UserTrainingsDAO userTrainingsDAO;
+    String userId;
 
     public DownloadPanelFragment() {
     }
 
-    public static DownloadPanelFragment newInstance(Training training) {
+    public static DownloadPanelFragment newInstance(Training training, String userId) {
         DownloadPanelFragment fragment = new DownloadPanelFragment();
         Bundle args = new Bundle();
         args.putSerializable("TRAINING", training);
+        args.putString("USER", userId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -34,7 +37,9 @@ public class DownloadPanelFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         training = (Training) getArguments().getSerializable("TRAINING");
-        trainingsDAO = new TrainingsDAO(getActivity());
+        userId = getArguments().getString("USER");
+        userTrainingsDAO = new UserTrainingsDAO(getActivity());
+
     }
 
     @Override
@@ -43,13 +48,13 @@ public class DownloadPanelFragment extends Fragment {
         final View view = inflater.inflate(R.layout.download_panel_fragment, container, false);
         final Button saveButton = (Button) view.findViewById(R.id.save);
 
-        if(trainingsDAO.trainingExist(training.get_id())) disableButtonIfCannotDownload(saveButton, view);
+        if(userTrainingsDAO.hasTraining(userId, training.get_id())) disableButtonIfCannotDownload(saveButton, view);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String info;
-                boolean downloaded = trainingsDAO.insertTraining(training);
+                boolean downloaded = userTrainingsDAO.insertTraining(userId, training);
                 if(downloaded) info = getString(R.string.success_download);
                 else info = getString(R.string.error_download);
                 Toast.makeText(getActivity(), info, Toast.LENGTH_SHORT).show();
@@ -69,7 +74,7 @@ public class DownloadPanelFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        trainingsDAO.close();
+        userTrainingsDAO.close();
         super.onDestroy();
     }
 

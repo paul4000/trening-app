@@ -12,8 +12,17 @@ import android.widget.Toast;
 
 import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.authorization.Authorization;
+import com.example.assistant.workout_assistant.bo.PlannedTraining;
 import com.example.assistant.workout_assistant.bo.Token;
+import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsDAO;
+import com.example.assistant.workout_assistant.notifications.NotificationsConfigurator;
 import com.example.assistant.workout_assistant.webService.UserService;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +40,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private UserService userService = new UserService();
 
+    private PlannedTrainingsDAO plannedTrainingsDAO;
+    private NotificationsConfigurator notificationsConfigurator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +50,8 @@ public class LoginActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("PREF", Context.MODE_PRIVATE);
         authorization = new Authorization(sharedPreferences);
+        plannedTrainingsDAO = new PlannedTrainingsDAO(this);
+        notificationsConfigurator = new NotificationsConfigurator(this);
 
 //        String token = sharedPreferences.getString("JWT_TOKEN", null);
         if (authorization.isTokenActual()) {
@@ -52,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
 
         signIn.setOnClickListener(v -> loginAttempt(usernameET.getText().toString(), passwordET.getText().toString()));
         registration.setOnClickListener(v -> registration());
+
     }
 
     public void registration() {
@@ -65,6 +80,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<Token> call, @NonNull Response<Token> response) {
                 authorization.signInAttempt(LoginActivity.this, sharedPreferences, response);
+
+                if(authorization.getUser() != null){
+                    String userId = authorization.getUser().getId();
+                    resumeNotifications(userId);
+                }
+
             }
 
             @Override
@@ -79,5 +100,36 @@ public class LoginActivity extends AppCompatActivity {
                 passwordET.setText("");
             }
         });
+    }
+
+    private void resumeNotifications(String userId) {
+        List<PlannedTraining> plannedTrainings = plannedTrainingsDAO.getPlannedTrainingsForUser(userId);
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.US);
+
+
+        for(PlannedTraining plannedTraining: plannedTrainings){
+            Calendar calendar = Calendar.getInstance();
+            try{
+                calendar.setTime(df.parse(plannedTraining.getDate()));
+            }catch(ParseException e){
+                e.printStackTrace();
+            }
+
+            notificationsConfigurator
+                    .setNotification(calendar, 2, plannedTraining.getNowNotificationId(), plannedTraining.getTrainingName());
+
+            if(plannedTraining.getBeforeNotificationId() > 0){
+                calendar.add(Calendar.MINUTE, -30);
+                notificationsConfigurator
+                        .setNotification(calendar, 1, plannedTraining.getBeforeNotificationId(), plannedTraining.getTrainingName());
+            }
+
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        plannedTrainingsDAO.close();
+        super.onDestroy();
     }
 }

@@ -1,10 +1,13 @@
 package com.example.assistant.workout_assistant.activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.assistant.workout_assistant.R;
+import com.example.assistant.workout_assistant.authorization.Authorization;
 import com.example.assistant.workout_assistant.bo.Training;
 import com.example.assistant.workout_assistant.fragments.panels.DownloadPanelFragment;
 import com.example.assistant.workout_assistant.fragments.panels.EditPanelFragment;
@@ -24,6 +27,8 @@ public class TrainingDetailsActivity extends AppCompatActivity {
     private EditPanelFragment editPanelFragment;
     private String mode;
     private TrainingService trainingService = new TrainingService();
+    private Authorization authorization;
+    private String userId;
 
     @Override
     protected void onDestroy() {
@@ -36,6 +41,11 @@ public class TrainingDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_training_details);
 
         Bundle bundle = getIntent().getExtras();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("PREF", Context.MODE_PRIVATE);
+        authorization = new Authorization(sharedPreferences);
+
+        userId = authorization.getUser().getId();
 
         mode = bundle.getString("MODE");
 
@@ -58,7 +68,7 @@ public class TrainingDetailsActivity extends AppCompatActivity {
                     .replace(R.id.detailsFragment, detailsFragment)
                     .commit();
 
-            editPanelFragment = EditPanelFragment.newInstance(training);
+            editPanelFragment = EditPanelFragment.newInstance(training, userId);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.panelFragment, editPanelFragment)
                     .commit();
@@ -79,7 +89,7 @@ public class TrainingDetailsActivity extends AppCompatActivity {
                         .replace(R.id.detailsFragment, detailsFragment)
                         .commit();
 
-                downloadPanelFragment = DownloadPanelFragment.newInstance(training);
+                downloadPanelFragment = DownloadPanelFragment.newInstance(training, userId);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.panelFragment, downloadPanelFragment)
                         .commit();

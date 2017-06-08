@@ -10,11 +10,20 @@ import android.widget.Button;
 
 import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.authorization.Authorization;
+import com.example.assistant.workout_assistant.bo.PlannedTraining;
+import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsDAO;
+import com.example.assistant.workout_assistant.notifications.NotificationsConfigurator;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     Authorization authorization;
+    NotificationsConfigurator notificationsConfigurator;
+    String userId;
+
+    PlannedTrainingsDAO plannedTrainingsDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,17 +32,22 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("PREF", Context.MODE_PRIVATE);
         authorization = new Authorization(sharedPreferences);
+        plannedTrainingsDAO = new PlannedTrainingsDAO(this);
 
         if (!authorization.isLogged()) {
             authorization.askLogin(this);
             return;
         }
 
+        notificationsConfigurator = new NotificationsConfigurator(this);
+        userId = authorization.getUser().getId();
+
 
         Button logout = (Button) findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                postponeAllNotifications(userId);
                 authorization.signOut(MainActivity.this);
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
@@ -75,6 +89,22 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        plannedTrainingsDAO.close();
+        super.onDestroy();
+    }
+
+    private void postponeAllNotifications(String userId) {
+
+        List<Integer> notificationsList = plannedTrainingsDAO.getAllNotificationsForUser(userId);
+
+        for(int notification: notificationsList){
+            notificationsConfigurator.cancelNotification(this, notification);
+        }
 
     }
 

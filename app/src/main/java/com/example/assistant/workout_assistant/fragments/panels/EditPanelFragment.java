@@ -16,6 +16,7 @@ import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.activities.PlanTrainingActivity;
 import com.example.assistant.workout_assistant.activities.WorkoutActivity;
 import com.example.assistant.workout_assistant.bo.Training;
+import com.example.assistant.workout_assistant.database.tables.UserTrainingsDAO;
 import com.example.assistant.workout_assistant.database.tables.PlannedTrainingsDAO;
 import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
 import com.example.assistant.workout_assistant.notifications.NotificationsConfigurator;
@@ -25,9 +26,10 @@ import java.util.List;
 public class EditPanelFragment extends Fragment {
 
     private Training training;
-    TrainingsDAO trainingsDAO;
+    UserTrainingsDAO userTrainingsDAO;
     DialogInterface.OnClickListener deleteDialog;
     Context context;
+    String userId;
 
     NotificationsConfigurator notificationsConfigurator;
     PlannedTrainingsDAO plannedTrainingsDAO;
@@ -37,10 +39,11 @@ public class EditPanelFragment extends Fragment {
 
     }
 
-    public static EditPanelFragment newInstance(Training training) {
+    public static EditPanelFragment newInstance(Training training, String userId) {
         EditPanelFragment fragment = new EditPanelFragment();
         Bundle args = new Bundle();
         args.putSerializable("TRAINING", training);
+        args.putString("USER", userId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,7 +52,8 @@ public class EditPanelFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         training = (Training) getArguments().getSerializable("TRAINING");
-        trainingsDAO = new TrainingsDAO(getActivity());
+        userId = getArguments().getString("USER");
+        userTrainingsDAO = new UserTrainingsDAO(getActivity());
         plannedTrainingsDAO = new PlannedTrainingsDAO(getActivity());
         deleteDialog = createDeletionDialog();
         context = getActivity();
@@ -63,8 +67,8 @@ public class EditPanelFragment extends Fragment {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
 
-                        List<Integer> notificationIds = plannedTrainingsDAO.getAllNotificationsForTraining(training.get_id());
-                        boolean result = trainingsDAO.deleteTraining(training.get_id());
+                        List<Integer> notificationIds = plannedTrainingsDAO.getAllNotificationsForUserTraining(userId, training.get_id());
+                        boolean result = userTrainingsDAO.deleteTraining(userId, training.get_id());
 
                         if (result) {
                             for (int notificationId : notificationIds) {
@@ -131,7 +135,7 @@ public class EditPanelFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        trainingsDAO.close();
+        userTrainingsDAO.close();
         plannedTrainingsDAO.close();
         super.onDestroy();
     }

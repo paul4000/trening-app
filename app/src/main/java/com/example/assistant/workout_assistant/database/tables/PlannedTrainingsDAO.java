@@ -2,6 +2,7 @@ package com.example.assistant.workout_assistant.database.tables;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -20,9 +21,11 @@ public class PlannedTrainingsDAO extends DAO {
     public static final String NOTIFICATION_BEFORE = "notification_before_id";
     public static final String NOTIFICATION_NOW = "notification_now_id";
     public static final String DATE = "date";
+    public static final String USER_ID = "user_id";
 
     public static final String CREATE_QUERY = CREATE + TABLE_PLANNED_TRAININGS
             + "(" + KEY_ID + " INTEGER PRIMARY KEY, "
+            + USER_ID + " TEXT, "
             + TRAINING_ID + " TEXT, "
             + NAME + " TEXT, "
             + DATE + " TEXT, "
@@ -36,16 +39,17 @@ public class PlannedTrainingsDAO extends DAO {
         super(context);
     }
 
-    public boolean insertPlannedTraining(String trainingId, String date, String name, int notIdBefore, int notIdNow){
+    public boolean insertPlannedTraining(String userId, String trainingId, String date, String name, int notIdBefore, int notIdNow){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        ContentValues values = fillValues(trainingId, date, name, notIdBefore, notIdNow);
+        ContentValues values = fillValues(userId, trainingId, date, name, notIdBefore, notIdNow);
 
         return db.insert(TABLE_PLANNED_TRAININGS, null, values) != -1;
     }
 
-    private ContentValues fillValues(String trainingId, String date, String name, int notIdBefore, int notIdNow) {
+    private ContentValues fillValues(String userId, String trainingId, String date, String name, int notIdBefore, int notIdNow) {
         ContentValues contentValues = new ContentValues();
+        contentValues.put(USER_ID, userId);
         contentValues.put(TRAINING_ID, trainingId);
         contentValues.put(DATE, date);
         contentValues.put(NAME, name);
@@ -54,15 +58,42 @@ public class PlannedTrainingsDAO extends DAO {
         return contentValues;
     }
 
+    public List<Integer> getAllNotificationsForUser(String userId){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-    public List<Integer> getAllNotificationsForTraining(String trainingId) {
+        List<Integer> notificationsList = new ArrayList<>();
+
+        String[] columns = { NOTIFICATION_BEFORE, NOTIFICATION_NOW };
+
+        String where = USER_ID + "=\"" + userId + "\"";
+
+        Cursor cursor = db.query(TABLE_PLANNED_TRAININGS, columns, where, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                int beforeId = cursor.getInt(0);
+                int nowId = cursor.getInt(1);
+
+                if(beforeId >= 0) notificationsList.add(beforeId);
+
+                notificationsList.add(nowId);
+            } while(cursor.moveToNext());
+            cursor.close();
+        }
+
+        return notificationsList;
+
+    }
+
+
+    public List<Integer> getAllNotificationsForUserTraining(String userId, String trainingId) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         List<Integer> notificationsList = new ArrayList<>();
 
         String[] columns = { NOTIFICATION_BEFORE, NOTIFICATION_NOW};
 
-        String where = TRAINING_ID + "=\"" + trainingId + "\"";
+        String where = TRAINING_ID + "=\"" + trainingId + "\"" + " AND "+ USER_ID + "=\"" + userId + "\"";
         Cursor cursor = db.query(TABLE_PLANNED_TRAININGS, columns, where, null, null, null, null);
 
         if(cursor.moveToFirst()){
@@ -82,14 +113,16 @@ public class PlannedTrainingsDAO extends DAO {
         return notificationsList;
     }
 
-    public List<PlannedTraining> getPlannedTrainings(){
+    public List<PlannedTraining> getPlannedTrainingsForUser(String userId){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         List<PlannedTraining> plannedTrainings = new ArrayList<>();
 
+        String where = USER_ID + " =\"" + userId + "\"";
+
         String[] columns = { KEY_ID, TRAINING_ID, NAME, DATE, NOTIFICATION_BEFORE, NOTIFICATION_NOW };
 
-        Cursor cursor = db.query(TABLE_PLANNED_TRAININGS, columns, null, null, null, null, null);
+        Cursor cursor = db.query(TABLE_PLANNED_TRAININGS, columns, where, null, null, null, null);
 
         if(cursor.moveToFirst()){
             do {

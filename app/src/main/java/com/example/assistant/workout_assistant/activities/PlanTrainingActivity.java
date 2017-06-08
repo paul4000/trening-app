@@ -47,6 +47,8 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
     SharedPreferences sharedPreferences;
     Authorization authorization;
 
+    String userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,9 +57,12 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
         sharedPreferences = getSharedPreferences("PREF", Context.MODE_PRIVATE);
         authorization = new Authorization(sharedPreferences);
 
+
         if (!authorization.isLogged()) {
             authorization.askLogin(this);
         }
+
+        userId = authorization.getUser().getId();
 
         Bundle bundle = getIntent().getExtras();
         training = (Training) bundle.getSerializable("TRAINING");
@@ -123,7 +128,7 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
         if (shouldAddBeforeNotification) notificationsConfigurator
                 .setNotification(calendar, 1, beforeNotificationId, training.getName());
 
-        return plannedTrainingsDAO.insertPlannedTraining(training.get_id(), date, training.getName(),
+        return plannedTrainingsDAO.insertPlannedTraining(userId, training.get_id(), date, training.getName(),
                 shouldAddBeforeNotification ? beforeNotificationId : -1, nowNotificationId);
 
     }
