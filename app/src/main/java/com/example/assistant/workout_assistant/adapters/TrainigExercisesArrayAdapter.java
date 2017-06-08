@@ -1,6 +1,7 @@
 package com.example.assistant.workout_assistant.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,9 +30,11 @@ public class TrainigExercisesArrayAdapter extends ArrayAdapter {
     private final Context context;
 
     LinearLayout exerciseSeries;
+    SharedPreferences sharedPreferences;
 
     public TrainigExercisesArrayAdapter(Context context, List<Training.ExercisesBean> trainingExercises) {
         super(context, 0, trainingExercises);
+        sharedPreferences = context.getSharedPreferences("PREF", Context.MODE_PRIVATE);
         this.trainingExercises = trainingExercises;
         this.context = context;
     }
@@ -43,22 +47,21 @@ public class TrainigExercisesArrayAdapter extends ArrayAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View rowView = inflater.inflate(R.layout.list_training_exercise, parent, false);
-        TextView exerciseName = (TextView) rowView.findViewById(R.id.exercise_name);
-
         Training.ExercisesBean exercisesBean = trainingExercises.get(position);
 
+        TextView exerciseName = (TextView) rowView.findViewById(R.id.exercise_name);
         exerciseName.setText(exercisesBean.getExercise().getName());
 
         List<SeriesBean> series = exercisesBean.getSeries();
 
         exerciseSeries = (LinearLayout) rowView.findViewById(R.id.exercise_series);
-
         exerciseSeries.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e("WA", "" + v.getId());
             }
         });
+
 
         for (int i = 0; i < series.size(); ++i) {
             SeriesBean seriesBean = series.get(i);
@@ -78,32 +81,35 @@ public class TrainigExercisesArrayAdapter extends ArrayAdapter {
             TextView seriesTime = (TextView) serie.findViewById(R.id.series_time);
             seriesTime.setText("" + seriesBean.getTime());
 
+            final int seriesPosition = i;
 
             CheckBox isDone = (CheckBox) serie.findViewById(R.id.is_done);
-            serie.setOnClickListener(new View.OnClickListener() {
+            isDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onClick(View v) {
-                    CheckBox isDone = (CheckBox) v.findViewById(R.id.is_done);
-                    isDone.toggle();
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Log.e("WA", "" + isChecked);
+                    Log.e("WA", position + "_" + seriesPosition);
 
-                    Log.e("WA", "" + isDone.isChecked());
-
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("ACTUAL_TRAINING_CHECK_" + position + "_" + seriesPosition, isChecked);
+                    editor.commit();
                 }
             });
-//            serie.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//                    Log.e("WA", "Pressed");
-//                    buttonView.isChecked();
-//                    Log.e("WA", "" + buttonView.getId());
-//                    Log.e("WA", "" + isDone.getId());
-//                    Log.e("WA", isChecked ? "true" : "false");
-//                    Log.e(buttonView.find);
-//
-//                    TextView number = (TextView)
-//                }
-//            });
+            serie.setOnClickListener(v -> {
+//                CheckBox isDone1 = (CheckBox) v.findViewById(R.id.is_done);
+//                isDone1.toggle();
+
+//                Log.e("WA", "" + isDone1.isChecked());
+//                Log.e("WA", position + "_" + seriesPosition);
+//////                    boolean checked = sharedPreferences.getBoolean("ACTUAL_TRAINING_CHECK_" + position + "_" + seriesPosition, false);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putBoolean("ACTUAL_TRAINING_CHECK_" + position + "_" + seriesPosition, isDone1.isChecked());
+//                editor.commit();
+            });
+
+
+            boolean checked = sharedPreferences.getBoolean("ACTUAL_TRAINING_CHECK_" + position + "_" + i, false);
+            isDone.setChecked(checked);
 
             exerciseSeries.addView(serie);
         }

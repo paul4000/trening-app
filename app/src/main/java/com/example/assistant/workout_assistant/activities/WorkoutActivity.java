@@ -6,12 +6,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.adapters.TrainigExercisesArrayAdapter;
+import com.example.assistant.workout_assistant.bo.SeriesBean;
 import com.example.assistant.workout_assistant.bo.Training;
 import com.example.assistant.workout_assistant.database.tables.TrainingsDAO;
 
@@ -23,12 +24,13 @@ public class WorkoutActivity extends AppCompatActivity {
 
 
     SharedPreferences sharedPreferences;
-//    Authorization authorization;
 
     TrainingsDAO trainingsDAO;
 
     Button abandon;
     Button finish;
+
+    List<Training.ExercisesBean> exercises;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
         trainingsDAO = new TrainingsDAO(this);
         sharedPreferences = getSharedPreferences("PREF", Context.MODE_PRIVATE);
+
 
 //        ActualTraining actualTraining = null;
         Training training = null;
@@ -57,22 +60,32 @@ public class WorkoutActivity extends AppCompatActivity {
         abandon = (Button) findViewById(R.id.abandon);
         finish = (Button) findViewById(R.id.finish);
 
-        abandon.setOnClickListener(v -> {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.remove("ACTUAL_TRAINING_ID");
-            editor.commit();
+        abandon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            onBackPressed();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("ACTUAL_TRAINING_ID");
+                editor.commit();
+                clearTrainingHistory();
+
+                onBackPressed();
+            }
         });
 
 
-        finish.setOnClickListener(v -> {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.remove("ACTUAL_TRAINING_ID");
-            editor.commit();
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-            Toast.makeText(this, "Zakonczyles trening", Toast.LENGTH_LONG).show();
-            onBackPressed();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("ACTUAL_TRAINING_ID");
+                editor.commit();
+
+                clearTrainingHistory();
+//                Toast.makeText(getContext, "Zakonczyles trening", Toast.LENGTH_LONG).show();
+                onBackPressed();
+            }
         });
 
         if (training == null) {
@@ -82,10 +95,14 @@ public class WorkoutActivity extends AppCompatActivity {
             Log.e("WA", "training znaleziony");
         }
 
-        List<Training.ExercisesBean> exercises = training.getExercises();
+        exercises = training.getExercises();
 
-        trainingExercises = (ListView) findViewById(R.id.training_exercises);
-        trainingExercises.setAdapter(new TrainigExercisesArrayAdapter(WorkoutActivity.this, exercises));
+        trainingExercises = (ListView)
+
+                findViewById(R.id.training_exercises);
+        trainingExercises.setAdapter(new
+
+                TrainigExercisesArrayAdapter(WorkoutActivity.this, exercises));
 
 
         Log.e("WA", "H");
@@ -93,4 +110,14 @@ public class WorkoutActivity extends AppCompatActivity {
     }
 
 
+    public void clearTrainingHistory() {
+        for (int i = 0; i < exercises.size(); ++i) {
+            List<SeriesBean> seriesBeen = exercises.get(i).getSeries();
+            for (int j = 0; j < seriesBeen.size(); ++j) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("ACTUAL_TRAINING_CHECK_" + i + "_" + j);
+                editor.commit();
+            }
+        }
+    }
 }
