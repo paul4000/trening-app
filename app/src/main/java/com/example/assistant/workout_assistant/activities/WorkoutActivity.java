@@ -57,6 +57,18 @@ public class WorkoutActivity extends AppCompatActivity {
             editor.commit();
         }
 
+
+        for (Training.Iter iter = training.getIterator(); iter.hasNext(); ) {
+            SeriesBean seriesBean = iter.next();
+
+            Log.e("WA", "" + seriesBean.get_id());
+            Log.e("WA", "" + seriesBean.getQuantity());
+            Log.e("WA", "" + seriesBean.getLoad());
+            Log.e("WA", "" + seriesBean.getTime());
+
+        }
+
+
         abandon = (Button) findViewById(R.id.abandon);
         finish = (Button) findViewById(R.id.finish);
 

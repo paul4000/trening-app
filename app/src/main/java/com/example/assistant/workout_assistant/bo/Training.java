@@ -1,9 +1,12 @@
 package com.example.assistant.workout_assistant.bo;
 
 import java.io.Serializable;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
-public class Training implements Serializable{
+public class Training implements Serializable {
 
     /**
      * _id : 5910d04fea94d232b3f36eae
@@ -81,7 +84,7 @@ public class Training implements Serializable{
         this.exercises = exercises;
     }
 
-    public static class Author implements Serializable{
+    public static class Author implements Serializable {
 
         /**
          * _id : 593735873e197c0011737cc1
@@ -192,4 +195,70 @@ public class Training implements Serializable{
 
 
     }
+
+
+    public Iter getIterator() {
+        return new Iter();
+    }
+
+    public class Iter implements Iterator {
+        int exerciseCursor;
+        int seriesCursor;
+        int lastExercise = -1;
+        int lastSeriesInExercise = -1;
+
+
+        Iter() {
+            exerciseCursor = 0;
+            seriesCursor = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            int exercisesSize = exercises.size();
+            if (exerciseCursor == exercisesSize) {
+                return false;
+            }
+
+            int seriesSize = exercises.get(exerciseCursor).getSeries().size();
+            return seriesCursor != seriesSize;
+        }
+
+        @Override
+        public SeriesBean next() {
+            int rc = exerciseCursor;
+            int i = seriesCursor;
+
+            if (rc >= exercises.size()) {
+                throw new NoSuchElementException();
+            }
+
+            ExercisesBean exercisesBean = exercises.get(rc);
+
+            if (seriesCursor >= exercisesBean.getSeries().size()) {
+                throw new ConcurrentModificationException();
+            }
+            seriesCursor = i + 1;
+
+            if (seriesCursor == exercisesBean.getSeries().size()) {
+                exerciseCursor++;
+                seriesCursor = 0;
+            }
+
+            lastExercise = rc;
+            lastSeriesInExercise = i;
+            return (SeriesBean) exercisesBean.getSeries().get(i);
+        }
+
+
+        public SeriesBean getActual() {
+            if (lastExercise < 0 || lastSeriesInExercise < 0) {
+                return null;
+            }
+            return (SeriesBean) exercises.get(lastExercise)
+                    .getSeries().get(lastSeriesInExercise);
+        }
+    }
+
+
 }
