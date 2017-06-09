@@ -22,7 +22,7 @@ import com.example.assistant.workout_assistant.notifications.NotificationsConfig
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -85,8 +85,6 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
 
         calendar = Calendar.getInstance();
         calendar.setTimeZone(TimeZone.getTimeZone("Europe/Warsaw"));
-        updateDisplayDate();
-        updateDisplayTime();
 
         saveTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +125,9 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
             }
         });
 
+        updateDisplayDate();
+        updateDisplayTime();
+
 //        if (training.isOutdoor()) {
 //            checkWeather.setVisibility(View.VISIBLE);
 //        } else {
@@ -160,7 +161,23 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         String formattedDate = dateFormatter.format(calendar.getTime());
         displayDate.setText(formattedDate);
+
+        Calendar currentCalendar = Calendar.getInstance();
+
+        int daysBetween = daysBetween(currentCalendar.getTime(), calendar.getTime());
+
+        if(daysBetween > 5) {
+            checkWeather.setEnabled(false);
+            Toast.makeText(PlanTrainingActivity.this, R.string.days_available_weather, Toast.LENGTH_LONG).show();
+        } else {
+            checkWeather.setEnabled(true);
+        }
+
     }
+    public int daysBetween(Date d1, Date d2){
+        return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
+    }
+
 
     public void updateDisplayTime() {
         SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss", Locale.US);

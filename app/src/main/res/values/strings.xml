@@ -53,6 +53,7 @@
     <string name="forecast_temperature">Przewidywana temperatura:</string>
     <string name="rain">Opady:</string>
     <string name="weather_error">Błąd podczas pobierania pogody.</string>
+    <string name="days_available_weather">Pogoda dostępna tylko na 5 dni.</string>
 
     <string name="start">rozpocznij</string>
     <string name="continue_actual_training">Kontynuuj aktualny trening</string>
