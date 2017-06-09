@@ -83,7 +83,7 @@ public class PlanTrainingActivity extends FragmentActivity implements TimePicker
         notificationsConfigurator = new NotificationsConfigurator(this);
         plannedTrainingsDAO = new PlannedTrainingsDAO(this);
 
-        calendar = new GregorianCalendar();
+        calendar = Calendar.getInstance();
         calendar.setTimeZone(TimeZone.getTimeZone("Europe/Warsaw"));
         updateDisplayDate();
         updateDisplayTime();

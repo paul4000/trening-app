@@ -18,12 +18,14 @@ import android.widget.Toast;
 
 import com.example.assistant.workout_assistant.R;
 import com.example.assistant.workout_assistant.activities.PlanTrainingActivity;
+import com.example.assistant.workout_assistant.bo.Training;
 import com.example.assistant.workout_assistant.webService.forecast.Forecast;
 import com.example.assistant.workout_assistant.webService.forecast.ForecastService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -128,29 +130,30 @@ public class ForecastFragment extends Fragment implements LocationListener{
 
     private Forecast.DetailsBean getWeather(Forecast forecast) {
 
-        Forecast.DetailsBean resultDetailBean = forecast.getList().get(0);
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
 
-        for(int i=1; i < forecast.getList().size(); ++i){
+        Iterator<Forecast.DetailsBean> detailsBeanIterator = forecast.getList().iterator();
 
-            Forecast.DetailsBean detail = forecast.getList().get(i);
+        int i = 0;
 
-            String date = detail.getDt_txt();
+        for(; i<forecast.getList().size(); ++i) {
+
+            Forecast.DetailsBean detailsBean = forecast.getList().get(i);
+
+            String date = detailsBean.getDt_txt();
             Calendar c = Calendar.getInstance();
-            try{
+            try {
                 c.setTime(dateFormat.parse(date));
-            }catch(ParseException e){
+            } catch (ParseException e) {
                 throw new IllegalArgumentException();
             }
 
-            if(c.after(calendar)){
-                resultDetailBean = detail;
-            } else break;
-
+            if(c.after(calendar)) break;
         }
 
-        return resultDetailBean;
+        if(i == forecast.getList().size()) --i;
+
+        return forecast.getList().get(i);
     }
 
     @Override
